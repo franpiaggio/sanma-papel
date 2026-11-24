@@ -5,7 +5,7 @@
  * so the shadow map was redrawn every frame: ~23 ms for the whole batched town.
  * Here the box is fixed over the mapped town at a higher resolution (same texel
  * size as the old moving box) and redrawn only while pieces fold or unfold
- * (every third frame) and for a few frames after they settle. Wind sway (a
+ * (every frame) and for a few frames after they settle. Wind sway (a
  * degree or two) is not re-shadowed; in a soft penumbra it is invisible.
  */
 export function fixShadows(H, { center = [0, -45], half = 95, mapSize = 4096 } = {}) {
@@ -28,7 +28,7 @@ export function fixShadows(H, { center = [0, -45], half = 95, mapSize = 4096 } =
   }
   R.shadowMap.autoUpdate = false;
   R.shadowMap.needsUpdate = true;
-  let tick = 0, settled = 0;
+  let settled = 0;
   let lastSum = NaN;
   const moving = () => {
     let sum = 0; for (const h of H.hinges) sum += h.p;   // also catches jumps (reset) that do not animate
@@ -38,7 +38,9 @@ export function fixShadows(H, { center = [0, -45], half = 95, mapSize = 4096 } =
   H.onStep(() => {
     if (moving()) {
       settled = 0;
-      if ((tick++ % 3) === 0) R.shadowMap.needsUpdate = true;   // a 2-frame lag on rising cards is invisible
+      // every frame while anything moves: updating every 3rd frame made moving
+      // shadows step (visible flicker on tap-fold); with instancing the pass is cheap
+      R.shadowMap.needsUpdate = true;
     } else if (settled < 3) {
       settled++;
       R.shadowMap.needsUpdate = true;
