@@ -337,8 +337,19 @@ export function createHarness({ bounds = { x0: -64, x1: 64, z0: -62, z1: 38 }, g
       const mask = P2.tileNoise(256, 9, rnd), at = (x, y) => mask[(Math.floor(y / H * 256) & 255) * 256 + (Math.floor(x / W * 256) & 255)];
       for (let k = 0, N = Math.round(n * dens); k < N; k++) { const x = rnd() * W, y = rnd() * H; if (rnd() > (at(x, y) > threshold ? inside : outside)) continue; fn(x, y); }
     };
-    draw({ g, W, H, ppu, X, Z, rnd, washes, torn, band, ribbon, bandOf, line, drifts, water });
-    g.globalCompositeOperation = 'multiply'; g.fillStyle = g.createPattern(paper.sheet, 'repeat'); g.fillRect(0, 0, W, H); // the paper shows through
+    const bake = globalThis.__printBake;
+    if (bake?.mode === 'replay' && bake.ground) {
+      // experimental ?baked: the printed ground arrives pre-rendered; draw() still runs its
+      // geometry side effects (water mask) but on a throwaway 1x1 canvas
+      const scratch = document.createElement('canvas'); scratch.width = scratch.height = 1;
+      const sg = scratch.getContext('2d'), keep = g;
+      draw({ g: sg, W, H, ppu, X, Z, rnd, washes: () => {}, torn: () => {}, band: () => {}, ribbon: () => {}, bandOf, line: () => {}, drifts: () => {}, water });
+      keep.setTransform(1, 0, 0, 1, 0, 0); keep.drawImage(bake.ground, 0, 0, c.width, c.height);
+    } else {
+      draw({ g, W, H, ppu, X, Z, rnd, washes, torn, band, ribbon, bandOf, line, drifts, water });
+      g.globalCompositeOperation = 'multiply'; g.fillStyle = g.createPattern(paper.sheet, 'repeat'); g.fillRect(0, 0, W, H); // the paper shows through
+    }
+    if (bake?.mode === 'record') bake.groundCanvas = c;
     const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     const mat = paperMaterial({ map: tex, normalMap: paper.normalMap.clone(), normalScale: 0.9 });
     mat.normalMap.repeat.set((G.x1 - G.x0) / 5, (G.z1 - G.z0) / 5); mat.normalMap.needsUpdate = true;

@@ -47,7 +47,7 @@ const L=layout, pt=L.points, mobile=matchMedia('(max-width:680px)').matches;
 // Phones and low-memory devices get a lighter town (same map, same ridges):
 // fewer infill houses and trees, a smaller shadow map. ?lite forces it, ?full disables it.
 const QS=new URLSearchParams(location.search);
-const lite=!QS.has('full')&&(QS.has('lite')||matchMedia('(pointer:coarse)').matches||mobile||(navigator.deviceMemory&&navigator.deviceMemory<=4));
+const lite=!QS.has('full')&&!QS.has('bake')&&!QS.has('baked')&&(QS.has('lite')||matchMedia('(pointer:coarse)').matches||mobile||(navigator.deviceMemory&&navigator.deviceMemory<=4));
 // Spatial index of densified road points (1-unit cells): proximity checks for
 // ridges and trees look at nearby cells only (the full scan cost ~30 s of load).
 const roadIndex=(()=>{const cells=new Map(),key=(x,z)=>(Math.floor(x)+512)*4096+(Math.floor(z)+2048);
@@ -185,16 +185,25 @@ function makeInfill(L,limit=2300){
     }
   }
   candidates.sort((a,b)=>a.priority-b.priority);
+  // Spatial grids (2-unit cells): each lot checks only nearby road segments and
+  // already chosen lots. The full scans made this step ~6 s on load.
+  const CELL=2,ck=(x,z)=>(Math.floor(x/CELL)+4096)*8192+(Math.floor(z/CELL)+4096);
+  const segGrid=new Map();
+  for(const r of roads){const pad=r.r+.1,x0=Math.min(r.a[0],r.b[0])-pad,x1=Math.max(r.a[0],r.b[0])+pad,z0=Math.min(r.a[1],r.b[1])-pad,z1=Math.max(r.a[1],r.b[1])+pad;
+    for(let cx=Math.floor(x0/CELL);cx<=Math.floor(x1/CELL);cx++)for(let cz=Math.floor(z0/CELL);cz<=Math.floor(z1/CELL);cz++){const k=(cx+4096)*8192+(cz+4096);let c=segGrid.get(k);if(!c)segGrid.set(k,c=[]);c.push(r);}}
+  const nearRoad=q=>{const c=segGrid.get(ck(q[0],q[1]));return !!c&&c.some(r=>segmentDistance(q,r.a,r.b)<r.r+.045);};
+  const lotGrid=new Map(),addLot=h=>{const k=ck(h.cx,h.cz);let c=lotGrid.get(k);if(!c)lotGrid.set(k,c=[]);c.push(h);};
+  const nearLots=h=>{const out=[],bx=Math.floor(h.cx/CELL),bz=Math.floor(h.cz/CELL);for(let dx=-2;dx<=2;dx++)for(let dz=-2;dz<=2;dz++){const c=lotGrid.get((bx+dx+4096)*8192+(bz+dz+4096));if(c)out.push(...c);}return out;};
   const chosen=[];
   for(const h of candidates){const p=[h.cx,h.cz],corners=lotCorners(h,.04),samples=[p,...corners,...corners.map((q,i)=>[(q[0]+corners[(i+1)%4][0])/2,(q[1]+corners[(i+1)%4][1])/2])];
     if(samples.some(q=>inside(q,L.waterPolygon)||inside(q,apron)))continue;
     if(inWood(h.cx,h.cz))continue;   // mapped forest: the slopes are wooded, not built
-    if(samples.some(q=>roads.some(r=>segmentDistance(q,r.a,r.b)<r.r+.045)))continue;
+    if(samples.some(nearRoad))continue;
     if(rivers.some(([a,b])=>segmentDistance(p,a,b)<Math.max(h.w,h.d)/2+.55))continue;
     if(parks.some(poly=>samples.some(q=>inside(q,poly))||poly.some(q=>inside(q,corners))))continue;
     if(occupied.some(poly=>samples.some(q=>inside(q,poly))||poly.some(q=>inside(q,corners))))continue;
-    if(chosen.some(q=>lotsTouch(h,q,.065)))continue;
-    chosen.push(h);if(chosen.length>=limit)break;
+    if(nearLots(h).some(q=>lotsTouch(h,q,.065)))continue;
+    chosen.push(h);addLot(h);if(chosen.length>=limit)break;
   }return chosen;
 }
 function makeUrbanTrees(L,plots,limit=1600){
