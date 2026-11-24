@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#2b6f6c">
+  <meta name="description" content="San Martín de los Andes como maqueta de papel: del lago Lácar a la Plaza San Martín.">
+  <title>San Martín de los Andes · papel</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b6f6c'/%3E%3Cpath d='M8 44 26 14 36 34 46 22 58 44Z' fill='%23e8dcb8'/%3E%3C/svg%3E">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js","papercraft/":"./"}}</script>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #d9d2c2; }
+    body { font: 14px/1.2 system-ui, sans-serif; -webkit-user-select: none; user-select: none; }
+    #hint { display: none; }
+    #veil { position: fixed; inset: 0; background: #d9d2c2; transition: opacity .9s ease; z-index: 5;
+      display: grid; place-content: center; justify-items: center; gap: 18px; color: #4a4235; font: 15px/1.3 system-ui, sans-serif; }
+    body.ready #veil { opacity: 0; pointer-events: none; }
+    /* A card folding up and down on its hinge. Transform-only, so it keeps
+       moving on the compositor while the main thread prints the town. */
+    .fold { width: 64px; height: 64px; perspective: 260px; }
+    .fold i { display: block; width: 64px; height: 44px; margin-top: 20px; background: #f3ecd9; border: 2px solid #8b6f4e;
+      border-radius: 3px; transform-origin: 50% 100%; animation: fold 1.6s ease-in-out infinite; box-shadow: 0 6px 10px rgba(60,40,20,.15); }
+    .fold i::after { content: ""; position: absolute; left: 10px; right: 10px; top: 10px; height: 14px; background: #c86c4c; clip-path: polygon(0 100%, 50% 0, 100% 100%); }
+    @keyframes fold { 0%, 15% { transform: rotateX(78deg); } 45%, 70% { transform: rotateX(0deg); } 100% { transform: rotateX(78deg); } }
+    .bar { width: min(240px, 60vw); height: 3px; background: rgba(74,66,53,.15); border-radius: 2px; overflow: hidden; }
+    .bar b { display: block; height: 100%; width: 3%; background: #8b6f4e; transition: width .4s ease; }
+    #veil button { font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid #8b6f4e; background: #f3ecd9; color: inherit; cursor: pointer; }
+    @media (prefers-reduced-motion: reduce) { .fold i { animation: none; } }
+    .controls { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
+      display: flex; gap: 4px; padding: 4px; border-radius: 999px; z-index: 10;
+      background: rgba(250, 245, 232, .72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 1px 2px rgba(60, 40, 20, .18), 0 6px 18px rgba(60, 40, 20, .12);
+      opacity: 0; transition: opacity .4s ease; }
+    body.ready .controls { opacity: 1; }
+    body.idle .controls { opacity: .25; }
+    .controls button { width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: #3d3427;
+      display: grid; place-items: center; cursor: pointer; }
+    .controls button:hover { background: rgba(61, 52, 39, .08); }
+    .controls button:focus-visible { outline: 2px solid #2b6f6c; outline-offset: 1px; }
+    .controls svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .controls span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    #pause .i-play { display: none; }
+    #pause[aria-pressed="true"] .i-play { display: block; }
+    #pause[aria-pressed="true"] .i-pause { display: none; }
+    @media (prefers-reduced-motion: reduce) { #veil, .controls { transition: none; } }
+  </style>
+</head>
+<body>
+  <div id="veil" role="status" aria-live="polite">
+    <div class="fold" aria-hidden="true"><i></i></div>
+    <div id="load-text">Cargando…</div>
+    <div class="bar" aria-hidden="true"><b id="load-bar"></b></div>
+    <button id="load-retry" type="button" hidden>Reintentar</button>
+  </div>
+  <nav class="controls" aria-label="Controles">
+    <button id="replay" type="button" title="Repetir recorrido"><svg viewBox="0 0 24 24"><path d="M4 9a8 8 0 1 1 0 6M4 3v6h6"/></svg><span>Repetir recorrido</span></button>
+    <button id="pause" type="button" aria-pressed="false" title="Pausa">
+      <svg class="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>
+      <svg class="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></svg><span>Pausa</span></button>
+    <button id="fold" type="button" title="Plegar"><svg viewBox="0 0 24 24"><path d="m3 6 6-2 6 3 6-2v14l-6 2-6-3-6 2ZM9 4v14M15 7v14"/></svg><span>Plegar</span></button>
+  </nav>
+  <script type="module">
+    const text = document.getElementById('load-text'), bar = document.getElementById('load-bar');
+    window.__loading = (msg, pct) => { if (pct != null) bar.style.width = pct + '%'; };   // stages only move the bar
+    document.getElementById('load-retry').addEventListener('click', () => location.reload());
+    // Let the loader paint before the heavy imports start.
+    await new Promise((r) => { let d = false; const go = () => { if (!d) { d = true; setTimeout(r, 0); } }; requestAnimationFrame(go); setTimeout(go, 60); });
+    try {
+      await import('./scene.js');
+    } catch (error) {
+      console.error(error);
+      text.textContent = 'No se pudo armar la maqueta. ' + (error?.message || '');
+      document.getElementById('load-retry').hidden = false;
+      document.querySelector('.fold').hidden = true;
+      throw error;
+    }
+    window.__loading('Listo', 100);
+    requestAnimationFrame(() => document.body.classList.add('ready'));
+    if (new URLSearchParams(location.search).has('record')) {
+      document.querySelector('.controls').hidden = true;
+      (await import('./record.js')).record();
+    }
+    let timer;
+    const wake = () => { document.body.classList.remove('idle'); clearTimeout(timer); timer = setTimeout(() => document.body.classList.add('idle'), 2500); };
+    for (const type of ['pointermove', 'pointerdown', 'keydown']) addEventListener(type, wake, { passive: true });
+    wake();
+  </script>
+</body>
+</html>
