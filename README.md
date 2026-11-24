@@ -12,7 +12,7 @@ Hecho con three.js, el kit [papercraft de xikhar](https://github.com/xikhar/pape
 2. **Papel.** Cada casa, árbol y cerro es una "carta" de cartulina con grosor, impresa con código (ventanas, tejas, hojas), que se levanta desde la hoja con una bisagra y un resorte. El aspecto de maqueta fotografiada (papel mate, sombras cálidas, tilt-shift, grano) viene del kit papercraft de xikhar.
 3. **El valle.** Los cerros rodean el pueblo como en la realidad y se ubican solos sin pararse sobre ningún camino.
 4. **Rendimiento.** Hay unas 30 mil piezas. Se agrupan por material para dibujarse en pocas llamadas (`BatchedMesh`), las sombras se recalculan solo cuando algo se mueve, las piezas quietas se congelan y en el celular se usa una versión más liviana.
-5. **Recorrido.** Primero suben los cerros, después el pueblo en ola desde la costa; la cámara hace zoom al muelle y pasea hasta la plaza. Arrastrá para girar, usá la rueda para acercar o alejar, y hacé click para plegar una zona.
+5. **Recorrido.** Primero suben los cerros, después el pueblo en ola desde la costa; la cámara hace zoom al muelle y pasea hasta la plaza. Arrastrá para girar, usá la rueda para acercar o alejar, movete con WASD o las flechas (Shift para ir más rápido) y hacé click para plegar una zona.
 
 Esta carpeta es solo la web publicada; el código fuente está en un repo privado.
 

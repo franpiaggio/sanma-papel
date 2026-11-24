@@ -157,6 +157,36 @@ export function createCinematicTour(H, { reducedMotion = false, introDuration = 
     api()?.look(H.target.x, H.target.z, dist, H.target.y);
     event.preventDefault();
   }
+  // WASD / arrows pan the camera over the page, relative to where it looks;
+  // Shift moves faster. Any key stops the guided tour.
+  const keys = new Set(), KEYS = { KeyW: [0, 1], ArrowUp: [0, 1], KeyS: [0, -1], ArrowDown: [0, -1], KeyA: [-1, 0], ArrowLeft: [-1, 0], KeyD: [1, 0], ArrowRight: [1, 0] };
+  function keydown(event) {
+    if (!KEYS[event.code] || event.metaKey || event.ctrlKey || event.altKey || /INPUT|TEXTAREA/.test(event.target?.tagName)) return;
+    if (running) stop();
+    keys.add(event.code); event.preventDefault();
+  }
+  function keyup(event) { keys.delete(event.code); }
+  function clearKeys() { keys.clear(); }
+  H.onStep((time, dt) => {
+    if (disposed || !keys.size || dt <= 0) return;
+    let mx = 0, mz = 0;
+    for (const k of keys) { mx += KEYS[k][0]; mz += KEYS[k][1]; }
+    if (!mx && !mz) return;
+    const fwd = new H.THREE.Vector3(); H.camera.getWorldDirection(fwd); fwd.y = 0; fwd.normalize();
+    const right = new H.THREE.Vector3(-fwd.z, 0, fwd.x);
+    const fast = keys.has('ShiftLeft') || keys.has('ShiftRight') || shift ? 2.2 : 1;
+    const speed = Math.max(6, H.view.dist * .55) * fast * dt / Math.hypot(mx, mz);
+    const x = clamp(H.target.x + (right.x * mx + fwd.x * mz) * speed, -110, 110);
+    const z = clamp(H.target.z + (right.z * mx + fwd.z * mz) * speed, -175, 50);
+    api()?.look(x, z, H.view.dist, H.target.y);
+  });
+  let shift = false;
+  const shiftTrack = (e) => { shift = e.shiftKey; };
+  window.addEventListener('keydown', keydown);
+  window.addEventListener('keyup', keyup);
+  window.addEventListener('keydown', shiftTrack);
+  window.addEventListener('keyup', shiftTrack);
+  window.addEventListener('blur', clearKeys);
   canvas.addEventListener('pointerdown', down, true);
   window.addEventListener('pointermove', move, true);
   window.addEventListener('pointerup', up, true);
@@ -169,6 +199,9 @@ export function createCinematicTour(H, { reducedMotion = false, introDuration = 
     window.removeEventListener('pointerup', up, true);
     window.removeEventListener('pointercancel', up, true);
     canvas.removeEventListener('wheel', wheel);
+    window.removeEventListener('keydown', keydown); window.removeEventListener('keyup', keyup);
+    window.removeEventListener('keydown', shiftTrack); window.removeEventListener('keyup', shiftTrack);
+    window.removeEventListener('blur', clearKeys);
   }
   apply(routeAt(0));
   if (!reducedMotion) restart();
