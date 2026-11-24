@@ -231,16 +231,25 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
   const swayers = H.hinges.filter((h) => h.swayAmp);
   for (const h of swayers) h.swayAmp0 = h.swayAmp;
   let swayTick = 0;
+  // Trees fade in and out of the wind over ~1 s: switching sway on or off at
+  // once made trees crossing the radius snap while the camera panned (flicker).
   function swayLOD() {
     const d = H.view.dist, r = d < 60 ? 22 : 0, tx = H.target.x, tz = H.target.z;
     for (const h of swayers) {
       const near = r > 0 && Math.abs(h.x - tx) < r && Math.abs(h.z - tz) < r * 1.4;
-      h.swayAmp = near ? h.swayAmp0 : 0;
-      if (!near) h.sway = 0;
+      h.swayTarget = near ? h.swayAmp0 : 0;
     }
   }
-  H.onStep(() => {
+  H.onStep((t, dt) => {
     if ((swayTick++ % 15) === 0) swayLOD();
+    const k = Math.min(1, dt * 1.6);
+    for (const h of swayers) {
+      const target = h.swayTarget ?? 0;
+      if (h.swayAmp === target) continue;
+      h.swayAmp += (target - h.swayAmp) * k;
+      if (Math.abs(h.swayAmp - target) < 1e-3) h.swayAmp = target;
+      if (!h.swayAmp) h.sway = 0;
+    }
     for (const h of statics) {
       // moving, or jumped (reset/replay set p without animating)
       if (h.pending || h.swayAmp || Math.abs(h.p - h.open) > 1e-4 || h.p !== h.lastP) h.thaw = 2;
