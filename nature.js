@@ -51,11 +51,12 @@ function coihuePlate(v) {
     const f = 1 + 0.058 * Math.sin(a * 7 + phase) + 0.027 * Math.cos(a * 11 - phase);
     return [lean + Math.cos(a) * rx * f, cy + Math.sin(a) * ry * f];
   };
-  const crownPts = Array.from({ length: 56 }, (_, i) => crown(i / 56 * TAU));
+  // 36 points still trace the 7- and 11-lobe ripple; 56 cost ~35% more triangles per tree
+  const crownPts = Array.from({ length: 36 }, (_, i) => crown(i / 36 * TAU));
   const cut = [[-0.27, 0], [0.29, 0]];
   // Join the trunk on either side of the crown's bottom arc; joining below its
   // scalloped edge would let the outline double back on itself in two variants.
-  for (let i = 0; i <= 54; i++) cut.push(crown(-Math.PI / 2 + 0.3 + (TAU - 0.6) * i / 54));
+  for (let i = 0; i <= 34; i++) cut.push(crown(-Math.PI / 2 + 0.3 + (TAU - 0.6) * i / 34));
   const leaves = [];
   // Golden-angle placement reads as a hand-arranged canopy, with countable leaves.
   for (let i = 0; i < 21; i++) {

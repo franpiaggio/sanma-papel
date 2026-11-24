@@ -164,6 +164,17 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
       mesh.userData.batchedPartial = true;
     }
   }
+  // Hide whole hinge groups whose every mesh is drawn instanced: the renderer
+  // then skips their subtree instead of visiting ~100k hidden nodes a frame
+  // (~10 ms of CPU). updateMatrixWorld and raycasts ignore visibility, so
+  // motion, instance sync and tap-to-fold keep working.
+  const hiddenSet = new Set(hidden);
+  let hiddenGroups = 0;
+  for (const h of H.hinges) {
+    let all = true, any = false;
+    h.group.traverse((o) => { if (o.isMesh) { any = true; if (!hiddenSet.has(o)) all = false; } });
+    if (any && all) { h.group.visible = false; hiddenGroups++; }
+  }
   // Partially batched meshes: replace the batched groups' materials by an
   // invisible placeholder so they are not drawn twice.
   const skip = new THREE.MeshBasicMaterial({ visible: false });
@@ -258,7 +269,7 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
       else if (!h.frozen) { h.group.updateMatrixWorld(true); h.group.updateMatrixWorld = NOOP; h.frozen = true; }
     }
   });
-  const stats = { meshes: meshes.length, hidden: hidden.length, drawCalls: batches.length, instances: batches.reduce((s, b) => s + b.links.length, 0) };
+  const stats = { meshes: meshes.length, hidden: hidden.length, hiddenGroups, drawCalls: batches.length, instances: batches.reduce((s, b) => s + b.links.length, 0) };
   console.info('[batcher]', stats);
   return { stats, sync, syncVisibility, batches };
 }

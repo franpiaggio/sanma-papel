@@ -18,7 +18,7 @@ import {createNature} from './nature.js';
 import {makeWalker,makeSailboat,makePier,makeBench,makeLamp} from './props.js';
 import {createGeoLayout,createWideLayout} from './geo-layout.js';
 import {applyCozyEnvironment,COZY_VIEW,COZY_VIEWS} from './cozy-environment.js';
-import {createCinematicTour} from './cinematic-route.js?v=fold-5';
+import {createCinematicTour,routeAt,TOUR_DURATION} from './cinematic-route.js?v=fold-5';
 import {createBatcher} from './batcher.js';
 import {fixShadows} from './shadow-control.js';
 import {createTapFold} from './interact.js';
@@ -368,7 +368,7 @@ function makeHillPlacements(){
                 [34,6,26,12],[37,-8,30,15],[41,-24,34,18],[45,-42,38,21],
                 [-50,-70,36,22],[-46,-96,40,26],[-30,-122,44,28],
                 [72,-58,40,24],[66,-80,44,27],[52,-104,46,29],
-                [-20,-192,70,44],[48,-192,70,46]];   // the far end of the valley, at the page edge where the roads stop
+                [-20,-192,70,44],[50,-197,70,46]];   // the far end of the valley, at the page edge where the roads stop
   // Keep every road readable: a ridge card stands on a straight base line, so
   // slide it away from the town (left chain left, right chain right) until no
   // mapped street or road crosses any of its three layers' bases; narrow it if
@@ -379,17 +379,26 @@ function makeHillPlacements(){
   // them with smaller ridges instead: candidates on a grid over mapped forest,
   // widest first, kept apart, never on a road, the lake or the built town.
   const extra=[];
-  for(const [x0,x1,z0,z1,dir] of [[30,72,-62,14,1],[-74,-26,-60,24,-1]]){
-    const placed=[];
+  // Where the tour camera passes (landscape and portrait framing), no ridge may
+  // stand: a card near the lens would cover the shot.
+  // A ridge is rejected only if, from some tour camera within 45 units, its crest
+  // rises into the frame (depression angle smaller than pitch + half the fov).
+  const cams=[];for(let t=0;t<=TOUR_DURATION;t+=.5){const v=routeAt(t);for(const k of [1,1.17]){const yr=v.yaw*Math.PI/180,pr=v.pitch*Math.PI/180,d=v.dist*k;cams.push({x:v.x+d*Math.cos(pr)*Math.sin(yr),z:v.z+d*Math.cos(pr)*Math.cos(yr),y:d*Math.sin(pr),edge:(v.pitch+10)*Math.PI/180});}}
+  const nearCam=(cx,z,w,h)=>cams.some(c=>{const dx=Math.max(0,Math.abs(c.x-cx)-w/2),dz=c.z-z,d=Math.hypot(dx,dz);if(d>45)return false;return Math.atan2(c.y-h,Math.max(d,.1))<c.edge;});
+  // Both shores carry their forested slopes down the lake arm (to the SW, +z).
+  // One shared list across the searches: overlapping searches used to drop two
+  // ridges almost on the same spot, coplanar cards that z-fight (flicker).
+  const placed=[...ranges.map(([x,z,w,h])=>[x,z,w,h])];
+  for(const [x0,x1,z0,z1,dir] of [[30,72,-62,95,1],[-74,-26,-60,95,-1],[-120,-60,20,95,-1]]){
+    let count=0;
     for(const w of [20,16,13])for(let z=z1;z>=z0;z-=4)for(let x=dir>0?x0:x1;dir>0?x<=x1:x>=x0;x+=dir*3){
-      if(placed.length>=7)break;
+      if(count>=12)break;
       const cx=x+dir*w/2;
       if(!inWood(cx,z)||!inWood(cx-w/2,z)||!inWood(cx+w/2,z)||waterMask?.(cx,z))continue;
       if(placed.some(p=>Math.abs(p[1]-z)<5&&Math.abs(p[0]-cx)<(p[2]+w)/2+1))continue;
-      if(blocked(cx,z,w))continue;
-      placed.push([cx,z,w,w*.72]);
+      if(blocked(cx,z,w)||nearCam(cx,z,w,w*.72))continue;
+      placed.push([cx,z,w,w*.72]);extra.push([cx,z,w,w*.72]);count++;
     }
-    extra.push(...placed);
   }
   const clear=[...ranges.map(([x,z,w,h])=>{const dir=x<0?-1:1;
     for(let k=0;k<=40;k++){const nx=x+dir*k*.75;if(!blocked(nx,z,w))return [nx,z,w,h];}
@@ -425,7 +434,7 @@ await stage('Llenando el bosque',76);
 // (what the tour sees) and sparser further out, where the ridges take over.
 {
   let i=0;
-  for(let z=-100;z<=40;z+=2.1)for(let x=-62;x<=66;x+=2.1){
+  for(let z=-100;z<=95;z+=2.1)for(let x=-90;x<=80;x+=2.1){
     const jx=x+(rand()-.5)*1.6,jz=z+(rand()-.5)*1.6;
     if(!inWood(jx,jz)||waterMask(jx,jz))continue;
     const edge=Math.min(Math.abs(jx+22),Math.abs(jx-30));       // near the shores / town edge
