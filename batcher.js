@@ -1,18 +1,22 @@
 /**
- * Draw-call batching for the paper town.
+ * Instanced drawing for the paper town.
  *
  * Every card is its own mesh with up to three material groups (front print,
- * cut edge, back), so a wide shot issued 20k+ draw calls and the opening ran at
- * ~6 fps. Infill houses come from five master models and trees from shared
- * plates, so most cards share their materials. Here every (material, group)
- * that recurs is moved into one THREE.BatchedMesh: one draw call per material,
- * drawn whole (per-instance CPU culling cost more than it saved).
+ * cut edge, back): ~30k meshes and ~100k draws. Infill houses come from five
+ * master models and trees from shared plates, so most cards repeat exactly.
+ * Each (material, sub-geometry) pair becomes one THREE.InstancedMesh: one real
+ * GPU-instanced draw call for every copy (~300 calls for ~97k copies).
+ * Geometries are deduplicated by content (identical extrusions share one) and
+ * welded into indexed form (ExtrudeGeometry is non-indexed).
+ *
+ * Why not BatchedMesh: Chrome on macOS (ANGLE on Metal) emulates its
+ * multi-draw one draw per instance, so ~98k driver draws a frame (~20 fps).
  *
  * Motion is preserved exactly: the original meshes stay in the scene graph
  * (hidden), the harness keeps animating their hinges, sway and follow() links,
- * and every frame each instance copies its source mesh's world matrix. Fold,
- * replay and wind therefore look identical; only the draw path changes.
- * Batches cast and receive shadows, so the shadow pass is batched as well.
+ * and moving instances copy their source mesh's world matrix every frame.
+ * Settled hinges are frozen (no matrix updates) and wind sway runs only near
+ * the camera target in close shots.
  */
 export function createBatcher(H, { minInstances = 3 } = {}) {
   const THREE = H.THREE;
@@ -33,8 +37,26 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
   // Split each geometry into one sub-geometry per material group (cached: the
   // infill clones share their master's geometry, so it is split once).
   const parts = new Map();   // geometry.uuid -> [{ material index, geometry }]
+  // Identical cards are built as separate geometries (every tree from one plate
+  // extrudes its own copy). Key geometries by content so copies share one
+  // instanced draw: an FNV hash of every attribute's raw bits plus the groups.
+  const byContent = new Map();
+  function contentKey(geo) {
+    let h = 2166136261 >>> 0, n = 0;
+    const mix = (v) => { h ^= v; h = Math.imul(h, 16777619) >>> 0; };
+    for (const name of Object.keys(geo.attributes).sort()) {
+      const a = geo.attributes[name].array, u = new Uint32Array(a.buffer, a.byteOffset, a.byteLength >> 2);
+      for (let i = 0; i < u.length; i++) mix(u[i]);
+      n += u.length;
+    }
+    if (geo.index) { const ix = geo.index.array; for (let i = 0; i < ix.length; i++) mix(ix[i]); }
+    for (const g of geo.groups) { mix(g.start); mix(g.count); mix(g.materialIndex); }
+    return h + ':' + n;
+  }
   function split(geo) {
     if (parts.has(geo.uuid)) return parts.get(geo.uuid);
+    const ck = contentKey(geo);
+    if (byContent.has(ck)) { const shared = byContent.get(ck); parts.set(geo.uuid, shared); return shared; }
     const names = Object.keys(geo.attributes).sort();
     const groups = geo.groups.length ? geo.groups : [{ start: 0, count: geo.index ? geo.index.count : geo.attributes.position.count, materialIndex: 0 }];
     const out = groups.map((g) => {
@@ -49,9 +71,32 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
         const a = geo.attributes[n];
         sub.setAttribute(n, new THREE.BufferAttribute(a.array.slice(g.start * a.itemSize, (g.start + g.count) * a.itemSize), a.itemSize, a.normalized));
       }
-      return { materialIndex: g.materialIndex, geometry: sub, sig: names.join(',') };
+      return { materialIndex: g.materialIndex, geometry: weld(sub), sig: names.join(',') };
     });
-    parts.set(geo.uuid, out);
+    parts.set(geo.uuid, out); byContent.set(ck, out);
+    return out;
+  }
+  // ExtrudeGeometry is non-indexed: every triangle carries its own three
+  // vertices, so the GPU transformed ~14M vertices a frame. Welding identical
+  // vertices (same position, normal and uv, bit for bit) into an index changes
+  // nothing on screen and lets the vertex cache reuse shared corners.
+  function weld(sub) {
+    const names = Object.keys(sub.attributes), attrs = names.map((n) => sub.attributes[n]);
+    const count = sub.attributes.position.count, map = new Map(), index = new Uint32Array(count), keep = [];
+    for (let i = 0; i < count; i++) {
+      let key = '';
+      for (const a of attrs) for (let k = 0; k < a.itemSize; k++) key += a.array[i * a.itemSize + k] + ',';
+      let j = map.get(key);
+      if (j === undefined) { j = keep.length; map.set(key, j); keep.push(i); }
+      index[i] = j;
+    }
+    const out = new THREE.BufferGeometry();
+    names.forEach((n, ai) => {
+      const a = attrs[ai], arr = new a.array.constructor(keep.length * a.itemSize);
+      keep.forEach((src, dst) => { for (let k = 0; k < a.itemSize; k++) arr[dst * a.itemSize + k] = a.array[src * a.itemSize + k]; });
+      out.setAttribute(n, new THREE.BufferAttribute(arr, a.itemSize, a.normalized));
+    });
+    out.setIndex(new THREE.BufferAttribute(index, 1));
     return out;
   }
   // An indexed group keeps only the vertices it references.
@@ -82,29 +127,24 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
     }
   }
 
+  // One InstancedMesh per (material, sub-geometry): true GPU instancing, one
+  // draw call for every copy of the same card. (BatchedMesh's multi-draw is
+  // emulated draw-by-draw by ANGLE on Metal: ~98k driver draws a frame.)
   const batches = [], batchedMeshes = new Set();
   for (const b of buckets.values()) {
     const owners = new Set(b.items.map((i) => i.mesh));
     if (owners.size < minInstances) continue;
-    const geos = [...new Set(b.items.map((i) => i.geometry))];
-    const verts = geos.reduce((s, g) => s + g.attributes.position.count, 0);
-    const indexed = !!geos[0].index;
-    const idx = indexed ? geos.reduce((s, g) => s + g.index.count, 0) : 0;
-    const bm = new THREE.BatchedMesh(b.items.length, verts, idx || undefined, b.material);
-    bm.castShadow = true; bm.receiveShadow = true;
-    // Per-instance CPU culling of ~60k instances (main + shadow pass) cost
-    // ~20 ms a frame; the GPU draws the whole town faster than that.
-    bm.sortObjects = false; bm.perObjectFrustumCulled = false;
-    bm.frustumCulled = false;
-    const gid = new Map(geos.map((g) => [g, bm.addGeometry(g)]));
-    const links = b.items.map(({ mesh, geometry }) => {
-      const id = bm.addInstance(gid.get(geometry));
-      bm.setMatrixAt(id, mesh.matrixWorld);
-      return { id, mesh };
-    });
-    scene.add(bm);
-    batches.push({ bm, links });
-    for (const { mesh } of links) batchedMeshes.add(mesh);
+    const byGeo = new Map();
+    for (const it of b.items) { let a = byGeo.get(it.geometry); if (!a) byGeo.set(it.geometry, a = []); a.push(it); }
+    for (const [geometry, items] of byGeo) {
+      const im = new THREE.InstancedMesh(geometry, b.material, items.length);
+      im.castShadow = true; im.receiveShadow = true; im.frustumCulled = false;
+      im.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+      const links = items.map(({ mesh }, id) => { im.setMatrixAt(id, mesh.matrixWorld); return { id, mesh }; });
+      scene.add(im);
+      batches.push({ bm: im, links });
+    }
+    for (const { mesh } of b.items) batchedMeshes.add(mesh);
   }
 
   // A mesh is hidden only when ALL its groups were batched; otherwise it keeps
@@ -145,7 +185,7 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
   for (const b of batches) for (const l of b.links) {
     for (let o = l.mesh; o; o = o.parent) { const h = hingeOf.get(o); if (h) { l.hinge = h; break; } }
   }
-  const moving = (h) => !h || h.pending || h.swayAmp || Math.abs(h.p - h.open) > 1e-4 || h.sway || h.p !== h.syncedP;
+  const moving = (h) => !h || h.pending || h.swayAmp || h.thaw > 0 || Math.abs(h.p - h.open) > 1e-4 || h.sway || h.p !== h.syncedP;
   let frame = -1, full = 2;
   function sync(force = false) {
     const all = force || full > 0; if (full > 0) full--;
@@ -153,7 +193,7 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
     // Write straight into each batch's matrix texture (setMatrixAt validates
     // and flags per call; ~80k calls a frame while the town folds).
     for (const { bm, links } of batches) {
-      const data = bm._matricesTexture.image.data;
+      const data = bm.instanceMatrix.array;
       let dirty = false;
       for (const l of links) {
         const h = l.hinge;
@@ -163,24 +203,15 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
         l.settled = !m; dirty = true;
         if (h) h.syncedP = h.p;
       }
-      if (dirty) bm._matricesTexture.needsUpdate = true;
+      if (dirty) bm.instanceMatrix.needsUpdate = true;
     }
   }
-  function syncVisibility() {
-    for (const { bm, links } of batches) for (const { id, mesh } of links) {
-      const v = (mesh.visible || mesh.userData.batchedVisible !== false) && visibleChain(mesh);
-      bm.setVisibleAt(id, v);
-    }
-  }
+  function syncVisibility() {}   // instanced copies are always visible (none of the batched pieces hide)
   syncVisibility();
   // Copy matrices once per rendered frame, after the renderer updated the graph.
   for (const { bm } of batches) {
-    // BatchedMesh culls its instances in its own onBeforeRender/onBeforeShadow:
-    // wrap them, never replace them.
-    const before = bm.onBeforeRender.bind(bm), shadow = bm.onBeforeShadow?.bind(bm);
-    const once = (renderer) => { const f = renderer.info.render.frame; if (f !== frame) { frame = f; sync(); } };
-    bm.onBeforeRender = (renderer, ...rest) => { once(renderer); before(renderer, ...rest); };
-    if (shadow) bm.onBeforeShadow = (renderer, ...rest) => { once(renderer); shadow(renderer, ...rest); };
+    bm.onBeforeRender = (renderer) => { const f = renderer.info.render.frame; if (f !== frame) { frame = f; sync(); } };
+    bm.onBeforeShadow = (renderer) => { const f = renderer.info.render.frame; if (f !== frame) { frame = f; sync(); } };
   }
   // Freeze settled hinges: a hinge that neither folds nor sways cannot move its
   // subtree, so its group skips updateMatrixWorld (~25k objects a frame; three
@@ -190,34 +221,35 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
   const hingeGroups = new Set(H.hinges.map((h) => h.group));
   const NOOP = () => {};
   const statics = H.hinges.filter((h) => {
-    if (h.swayAmp) return false;
     let nested = false;
     h.group.traverse((o) => { if (o !== h.group && hingeGroups.has(o)) nested = true; });
     return !nested;
   });
+  // Wind sway only where it can be seen: trees within a radius of the camera
+  // target in close shots, none in wide shots. 3.3k swaying trees recomputed
+  // and re-uploaded every frame cost ~80 ms; far sway is sub-pixel and blurred.
+  const swayers = H.hinges.filter((h) => h.swayAmp);
+  for (const h of swayers) h.swayAmp0 = h.swayAmp;
+  let swayTick = 0;
+  function swayLOD() {
+    const d = H.view.dist, r = d < 60 ? 22 : 0, tx = H.target.x, tz = H.target.z;
+    for (const h of swayers) {
+      const near = r > 0 && Math.abs(h.x - tx) < r && Math.abs(h.z - tz) < r * 1.4;
+      h.swayAmp = near ? h.swayAmp0 : 0;
+      if (!near) h.sway = 0;
+    }
+  }
   H.onStep(() => {
+    if ((swayTick++ % 15) === 0) swayLOD();
     for (const h of statics) {
       // moving, or jumped (reset/replay set p without animating)
-      if (h.pending || Math.abs(h.p - h.open) > 1e-4 || h.p !== h.lastP) h.thaw = 2;
+      if (h.pending || h.swayAmp || Math.abs(h.p - h.open) > 1e-4 || h.p !== h.lastP) h.thaw = 2;
       h.lastP = h.p;
       if (h.thaw > 0) { h.thaw--; if (h.frozen) { delete h.group.updateMatrixWorld; h.frozen = false; } }
       else if (!h.frozen) { h.group.updateMatrixWorld(true); h.group.updateMatrixWorld = NOOP; h.frozen = true; }
     }
   });
-  // Close shots see a small part of the town: per-instance culling then saves
-  // more GPU time than its CPU cost. Wide shots see everything: draw whole.
-  let culling = null;
-  H.onStep(() => {
-    const want = H.view.dist < 35;
-    if (want !== culling) {
-      culling = want;
-      // Turning culling off must rebuild the draw list: BatchedMesh skips the
-      // rebuild when culling is off and nothing changed, so it kept drawing
-      // only what the last close-up frustum saw (the town vanished on zoom out).
-      for (const { bm } of batches) { bm.perObjectFrustumCulled = want; bm._visibilityChanged = true; }
-    }
-  });
-  const stats = { meshes: meshes.length, hidden: hidden.length, batches: batches.length, instances: batches.reduce((s, b) => s + b.links.length, 0) };
+  const stats = { meshes: meshes.length, hidden: hidden.length, drawCalls: batches.length, instances: batches.reduce((s, b) => s + b.links.length, 0) };
   console.info('[batcher]', stats);
   return { stats, sync, syncVisibility, batches };
 }

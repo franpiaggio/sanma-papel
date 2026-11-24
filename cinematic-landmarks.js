@@ -85,16 +85,23 @@ export function makePlazaMonument(H, { x, z }) {
   return group;
 }
 
+// Planter prints are shared: one tub print and one bloom print per colour
+// (crossCard reuses the first card's print via `materials`). Ten planters used
+// to issue ~540 draw calls with a unique print per bloom; shared, they batch.
+const PLANTER_PRINTS=new Map();
 export function makeFlowerPlanter(H,{x,z,seed=1}) {
   const {THREE}=H, group=new THREE.Group();
   group.name='Jardinera de papel';
   const opts={...H.cardOpts(x,z),thickness:.006,edgeWidth:.004,pxPerUnit:180,contact:null,seed};
+  const tubKey='tub', bloomKey='bloom'+(seed%3);
   const tub=crossCard([[-.16,0],[.16,0],[.14,.11],[-.14,.11]],{
-    ...opts,paint:P=>{P.fill('#aa603f');P.layer([[-.15,.07],[.15,.07],[.16,.1],[-.16,.1]],'#de9b55',{depth:.2});P.felt(.18);}});
+    ...opts,materials:PLANTER_PRINTS.get(tubKey)||null,paint:P=>{P.fill('#aa603f');P.layer([[-.15,.07],[.15,.07],[.16,.1],[-.16,.1]],'#de9b55',{depth:.2});P.felt(.18);}});
+  if(!PLANTER_PRINTS.has(tubKey))PLANTER_PRINTS.set(tubKey,tub.children[0].material);
   group.add(tub);
   for(let i=0;i<5;i++){
     const bloom=crossCard([[-.065,.07],[-.085,.14],[-.045,.21],[0,.18],[.045,.215],[.08,.15],[.055,.08]],{
-      ...opts,paint:P=>{P.fill(['#df8253','#d15769','#eeb958'][seed%3]);P.layer([[-.025,.12],[.025,.12],[.035,.16],[0,.185],[-.035,.16]],'#f6ce73',{depth:.2});P.felt(.12);}});
+      ...opts,materials:PLANTER_PRINTS.get(bloomKey)||null,paint:P=>{P.fill(['#df8253','#d15769','#eeb958'][seed%3]);P.layer([[-.025,.12],[.025,.12],[.035,.16],[0,.185],[-.035,.16]],'#f6ce73',{depth:.2});P.felt(.12);}});
+    if(!PLANTER_PRINTS.has(bloomKey))PLANTER_PRINTS.set(bloomKey,bloom.children[0].material);
     bloom.position.set((i-2)*.063,0,(i%2-.5)*.05);group.add(bloom);
   }
   group.userData.height=.23;
