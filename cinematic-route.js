@@ -48,7 +48,7 @@ export function routeAt(seconds) {
   return out;
 }
 
-export function createCinematicTour(H, { reducedMotion = false, introDuration = .5 } = {}) {
+export function createCinematicTour(H, { reducedMotion = false, introDuration = .5, autoplay = true } = {}) {
   let elapsed = 0, intro = 0, running = false, disposed = false, drag = null;
   const canvas = H.renderer.domElement;
   const api = () => window.__papercraft;
@@ -100,10 +100,10 @@ export function createCinematicTour(H, { reducedMotion = false, introDuration = 
   function rise() {
     for (const h of H.hinges) {
       h.reset(0);
-      soften(h.spring, h.hill ? .12 : .42);   // big ridges rise slowly, over ~1.5 s
+      soften(h.spring, h.hill ? .12 : .6);    // ridges rise slowly (~1.5 s); houses and trees in ~0.8 s, so fewer pieces are in the air at once
       const z = Number.isFinite(h.z) ? h.z : 0;
       const delay = h.hill ? .15 + (2 - (h.layer || 0)) * .18 + (h.jit || 0)
-        : 1.1 + Math.max(0, -z) * .026 + (h.jit || 0);
+        : 1.1 + Math.max(0, -z) * .034 + (h.jit || 0);   // spread so fewer pieces are in the air at once
       h.set(1, delay);
     }
   }
@@ -204,7 +204,7 @@ export function createCinematicTour(H, { reducedMotion = false, introDuration = 
     window.removeEventListener('blur', clearKeys);
   }
   apply(routeAt(0));
-  if (!reducedMotion) restart();
+  if (!reducedMotion && autoplay) restart();
   return { play, pause, stop, restart, seek, dispose,
     get running() { return running; },
     get progress() { return elapsed / TOUR_DURATION; },

@@ -33,7 +33,7 @@ export function fixShadows(H, { center = [0, -45], half = 95, mapSize = 4096 } =
   const moving = () => {
     let sum = 0; for (const h of H.hinges) sum += h.p;   // also catches jumps (reset) that do not animate
     const jumped = sum !== lastSum; lastSum = sum;
-    return jumped || H.hinges.some((h) => h.pending || Math.abs(h.p - h.open) > 1e-4);
+    return jumped || H.hinges.some((h) => !h.spring.atRest);
   };
   H.onStep(() => {
     if (moving()) {

@@ -110,6 +110,23 @@
       text.textContent = 'Horneado listo';
       console.info('[bake] done', prints.length);
     }
+    // Warm up behind the loader: compile every shader, upload every texture and
+    // let frames render until they come out steady, then start the tour. The
+    // first seconds used to stutter while the GPU caught up with the rise.
+    {
+      const S = window.__sanMartin, R = S.H.renderer;
+      window.__loading('', 94);
+      R.compile(S.H.scene, S.H.camera);
+      const seen = new Set();
+      S.H.scene.traverse((o) => { const ms = o.material ? (Array.isArray(o.material) ? o.material : [o.material]) : [];
+        for (const m of ms) for (const k of ['map', 'normalMap', 'emissiveMap']) { const t = m?.[k]; if (t && !seen.has(t)) { seen.add(t); R.initTexture(t); } } });
+      const t0 = performance.now(); let last = t0, steady = 0;
+      await new Promise((resolve) => { const tick = () => { const now = performance.now(), dt = now - last; last = now;
+        steady = dt < 34 ? steady + 1 : 0;
+        if (steady >= 10 || now - t0 > 6000) resolve(); else requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+      window.__loading('', 100);
+      if (!Q.has('record') && !Q.has('bake')) S.tour.restart();
+    }
     requestAnimationFrame(() => document.body.classList.add('ready'));
     if (new URLSearchParams(location.search).has('record')) {
       document.querySelector('.controls').hidden = true;

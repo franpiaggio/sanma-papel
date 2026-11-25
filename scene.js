@@ -505,7 +505,10 @@ const api=window.__papercraft,listeners=[];
 // Keep the opening hinges visible. The camera waits while the city unfolds.
 // Only the visitor's reduced-motion preference starts with settled pieces.
 api.restart();
-const tour=createCinematicTour(H,{reducedMotion:reduced});
+// Pieces stay flat and still until the page has warmed up (index.html starts
+// the tour): no rise while shaders compile and textures upload.
+for(const h of H.hinges)h.reset(0);
+const tour=createCinematicTour(H,{reducedMotion:reduced,autoplay:false});
 let paused=false,folded=false;
 const foldButton=document.getElementById('fold'),pauseButton=document.getElementById('pause');
 const label=(button,text)=>{const span=button?.querySelector('span');if(span)span.textContent=text;};

@@ -196,26 +196,38 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
   for (const b of batches) for (const l of b.links) {
     for (let o = l.mesh; o; o = o.parent) { const h = hingeOf.get(o); if (h) { l.hinge = h; break; } }
   }
-  const moving = (h) => !h || h.pending || h.swayAmp || h.thaw > 0 || Math.abs(h.p - h.open) > 1e-4 || h.sway || h.p !== h.syncedP;
+  // Moving = the spring is actually animating (a piece still waiting for its turn
+  // in the rise wave is pending but still, and must not cost anything).
+  const moving = (h) => !h || !h.spring.atRest || h.swayAmp || h.thaw > 0 || h.sway || h.p !== h.syncedP;
   let frame = -1, full = 2;
+  // Index instances by hinge so a frame only visits the hinges that move
+  // (scanning all ~109k instances every frame cost ~7 ms during the rise).
+  const byHinge = new Map(), loose = [];
+  batches.forEach((b, bi) => { for (const l of b.links) { if (l.hinge) { let a = byHinge.get(l.hinge); if (!a) byHinge.set(l.hinge, a = []); a.push([bi, l]); } else loose.push([bi, l]); } });
+  const hingeList = [...byHinge.keys()];
+  const lo = new Int32Array(batches.length), hi = new Int32Array(batches.length);
+  function write(bi, l) {
+    const a = batches[bi].bm.instanceMatrix.array, e = l.mesh.matrixWorld.elements, o = l.id * 16;
+    // element by element: TypedArray.set() from a plain Array converts on every call
+    a[o] = e[0]; a[o + 1] = e[1]; a[o + 2] = e[2]; a[o + 3] = e[3]; a[o + 4] = e[4]; a[o + 5] = e[5]; a[o + 6] = e[6]; a[o + 7] = e[7];
+    a[o + 8] = e[8]; a[o + 9] = e[9]; a[o + 10] = e[10]; a[o + 11] = e[11]; a[o + 12] = e[12]; a[o + 13] = e[13]; a[o + 14] = e[14]; a[o + 15] = e[15];
+    if (l.id < lo[bi]) lo[bi] = l.id;
+    if (l.id > hi[bi]) hi[bi] = l.id;
+  }
   function sync(force = false) {
     const all = force || full > 0; if (full > 0) full--;
-    const state = new Map();
-    // Write straight into each batch's matrix texture (setMatrixAt validates
-    // and flags per call; ~80k calls a frame while the town folds).
-    for (const { bm, links } of batches) {
-      const data = bm.instanceMatrix.array;
-      let dirty = false;
-      for (const l of links) {
-        const h = l.hinge;
-        let m = state.get(h); if (m === undefined) { m = moving(h); state.set(h, m); }
-        if (!all && !m && l.settled) continue;
-        data.set(l.mesh.matrixWorld.elements, l.id * 16);
-        l.settled = !m; dirty = true;
-        if (h) h.syncedP = h.p;
-      }
-      if (dirty) bm.instanceMatrix.needsUpdate = true;
+    lo.fill(2147483647); hi.fill(-1);
+    for (const h of hingeList) {
+      if (!all && !moving(h)) continue;
+      for (const [bi, l] of byHinge.get(h)) write(bi, l);
+      h.syncedP = h.p;
     }
+    if (all) for (const [bi, l] of loose) write(bi, l);
+    batches.forEach(({ bm }, bi) => {
+      if (hi[bi] < 0) return;
+      const attr = bm.instanceMatrix;
+      attr.clearUpdateRanges(); attr.addUpdateRange(lo[bi] * 16, (hi[bi] - lo[bi] + 1) * 16); attr.needsUpdate = true;
+    });
   }
   function syncVisibility() {}   // instanced copies are always visible (none of the batched pieces hide)
   syncVisibility();
@@ -263,7 +275,7 @@ export function createBatcher(H, { minInstances = 3 } = {}) {
     }
     for (const h of statics) {
       // moving, or jumped (reset/replay set p without animating)
-      if (h.pending || h.swayAmp || Math.abs(h.p - h.open) > 1e-4 || h.p !== h.lastP) h.thaw = 2;
+      if (!h.spring.atRest || h.swayAmp || h.p !== h.lastP) h.thaw = 2;
       h.lastP = h.p;
       if (h.thaw > 0) { h.thaw--; if (h.frozen) { delete h.group.updateMatrixWorld; h.frozen = false; } }
       else if (!h.frozen) { h.group.updateMatrixWorld(true); h.group.updateMatrixWorld = NOOP; h.frozen = true; }
