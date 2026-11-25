@@ -1,0 +1,51 @@
+// Modelos individuales. Rasgos observados, no familias asignadas por azar.
+// Dimensiones de maestro en unidades normalizadas; huella real al colocarlos.
+const civic=(id,name,sourceId,form,traits,refs,options={})=>({
+  id,name,sourceId,form,category:'Hitos',w:8,d:4,height:6,heightScene:1.1,
+  palette:{facade:'#e4dfcf',timber:'#915d3c',roof:'#586467',stone:'#a59b84',glass:'#537984'},
+  traits,reviewIndices:refs,...options,
+});
+const hotel=(id,name,sourceId,form,traits,refs,options={})=>civic(id,name,sourceId,form,traits,refs,{category:'Hoteles',heightScene:1.12,...options});
+
+export const LANDMARKS=[
+  civic('monumento-san-martin','Monumento al General San Martín','way/1025539992','monument',
+    ['Caballo caminando, con las patas delanteras sin encabritarse','Jinete con poncho y bicornio, catalejo en la mano','Pedestal bajo de piedra; figura próxima al suelo','Orientado al sur, hacia la avenida San Martín'],[],
+    {category:'Monumentos',w:2.1,d:2.1,height:.71,heightScene:.39,existingVerified:true}),
+  civic('municipalidad','Municipalidad y torre del reloj','way/815953968','municipal',
+    ['Torre rectangular de piedra, alta respecto del ala lateral','Dos plantas revocadas y gran franja de madera bajo el alero profundo','Relojes pequeños, balcón oscuro en la torre y pérgola de acceso','Ciervo de bronce en el jardín'],[0,1,2],
+    {w:9,d:4.5,height:8,heightScene:1.46}),
+  civic('san-jose','Parroquia San José','way/836815437','church',
+    ['Nave longitudinal de piedra con ventanas circulares y contrafuertes','Campanario blanco con cornisas, ventanas pequeñas y vanos abiertos','Cubierta baja, aguja oscura y pórtico blanco con columnas'],[3,4,5],
+    {w:10,d:4,height:9,heightScene:1.65}),
+  civic('intendencia','Intendencia histórica del Parque Nacional Lanín','way/451972974','lanin',
+    ['Basamento de piedra y planta alta de madera horizontal','Cuatro buhardillas sobre una cubierta a cuatro aguas','Porche central sostenido por postes de madera','Chimenea alta de piedra'],[],{w:9,d:4.5,height:6.2,heightScene:1.03,frontTarget:'plazaSanMartin'}),
+  civic('primeros-pobladores','Museo Primeros Pobladores','way/815953969','museum',
+    ['Casa baja de tablas de madera verticales','Ventanas altas con marcos claros','Acceso saliente con hastial de troncos y baranda de madera'],[],
+    {w:6,d:4,height:4.3,heightScene:.59,frontTarget:'plazaSanMartin',palette:{facade:'#b28455',timber:'#885b3b',roof:'#707774',stone:'#969382',glass:'#5e7a7c'}}),
+  civic('teatro-san-jose','Teatro San José','way/815953971','theatre',
+    ['Sala longitudinal de madera ocre y cubierta a dos aguas','Frente de hastial con puerta alta y luneta superior','Anexo más alto de revoque verde junto a la sala'],[12,13,14],
+    {w:8,d:4,height:5.1,heightScene:.77,palette:{facade:'#b87b49',timber:'#855c3b',roof:'#777a72',stone:'#9a977d',glass:'#677d80'}}),
+  civic('terminal','Terminal de Ómnibus','way/816348664','terminal',
+    ['Volumen bajo de piedra y carpinterías verdes','Franja alta de chapa verde y ventanas pequeñas corridas','Marquesina larga de acceso y letrero terminal'],[16,17],{w:11,d:4,height:3.8,heightScene:.58}),
+  hotel('patagonia-plaza','Patagonia Plaza Hotel','way/816349980','patagonia',
+    ['Bloque alto de cuatro niveles sobre basamento oscuro vidriado','Paños claros, marcos blancos y cuerpos de hastial salientes','Cubierta gris oscura con varios frontones'],[19,20],{w:9,d:6,height:8,heightScene:1.40,palette:{facade:'#d9dfd5',timber:'#7d6756',roof:'#566367',stone:'#6e716b',glass:'#54747d'}}),
+  hotel('tunqueley','Hotel Tunqueley','way/836815432','tunqueley',
+    ['Frente ancho de tres plantas con bandas blancas horizontales','Balcones corridos y barandas oscuras','Carpinterías de madera y cubierta baja'],[21,22,23],{w:9,d:4,height:5.8,heightScene:1.02}),
+  hotel('le-chatelet','Le Châtelet Hotel','way/836892626','chatelet',
+    ['Entramado marrón sobre revoque blanco','Pequeña torre central cuadrada con remate y hastial','Galería y pérgola bajas junto al acceso'],[24,25,26],{w:9,d:5,height:7,heightScene:1.16}),
+  hotel('walkirias','Hostería Las Walkirias','way/836899955','walkirias',
+    ['Madera oscura con zócalo de piedra y marcos blancos','Dos hastiales asimétricos de fuerte pendiente','Ventanas arqueadas y chimenea de piedra muy visible'],[27,28],{w:9,d:5,height:6.6,heightScene:1.05,palette:{facade:'#85664f',timber:'#71543e',roof:'#58616a',stone:'#9c927e',glass:'#617e85'}}),
+  hotel('rosa-viajes','Hotel Rosa de los Viajes','way/815953952','rosa',
+    ['Frente de madera rojiza de tres plantas','Cuerpo central vidriado que sobresale y pequeños hastiales','Planta baja comercial con alero continuo'],[30,31],{w:8,d:4,height:6.4,heightScene:1.10}),
+  hotel('caupolican','Hotel Caupolicán','way/815953934','caupolican',
+    ['Gran frente vidriado continuo y marco oscuro','Pisos altos claros con barandas de madera','Remate de buhardillas sobre cubierta gris'],[33,34,35],{w:8,d:4.5,height:7.5,heightScene:1.22}),
+  hotel('le-ville','Le Ville Hotel','way/836638810','ville',
+    ['Revoque marfil con miradores de madera salientes','Torre esbelta de madera y piedra junto al acceso','Porches y hastiales escalonados'],[42,43,44],{w:10,d:5,height:7.5,heightScene:1.25}),
+  hotel('cumelen','Hostería Cumelén','way/836905466','cumelen',
+    ['Dos cuerpos asimétricos de madera parda con cubierta quebrada','Planta baja clara y ventanas de hojas pequeñas','Balcón frontal y entrada baja entre los volúmenes'],[45,46,47],{w:9,d:5,height:5.5,heightScene:.86}),
+  hotel('chapelco-ski','Chapelco Ski Hotel','way/836847023','chapelco',
+    ['Cuerpo largo de revoque blanco con bandas de madera','Balcones corridos y cubierta poco inclinada','Porche central de madera con hastial triangular'],[48,49,50],{w:10,d:4,height:6,heightScene:1.02}),
+  hotel('viejo-esquiador','Hotel El Viejo Esquiador','way/815761713','esquiador',
+    ['Frente urbano ancho color crema','Ventanas horizontales y cuerpos laterales más altos','Acceso comercial oscuro y alero continuo'],[39,40,41],{w:10,d:5,height:6.7,heightScene:1.13,palette:{facade:'#d9cb95',timber:'#9a693f',roof:'#5d665e',stone:'#9e947a',glass:'#5d7980'}}),
+];
+export const LANDMARK_BY_SOURCE=new Map(LANDMARKS.map(s=>[s.sourceId,s]));

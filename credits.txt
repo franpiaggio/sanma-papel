@@ -1,5 +1,8 @@
 VERSIÓN V2 · ARQUITECTURA LOCAL
 
+Inspector: OrbitControls de three.js r187, MIT.
+https://github.com/mrdoob/three.js/blob/r187/examples/jsm/controls/OrbitControls.js
+
 Impresiones de fachadas y cubiertas V2: CC BY-SA 4.0.
 Referencias Mapillary con autor, id y observaciones: assets/references.json.
 Ver assets/manifest.json, assets/LICENSE.txt y la biblioteca assets.html.

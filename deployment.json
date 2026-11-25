@@ -1,14 +1,14 @@
 {
   "current": {
     "edition": "v2",
-    "directory": "v2/23c14ff8a7ca3e05/",
+    "directory": "v2/66fa33b04e4c7e73/",
     "files": {
       "architecture.js": "b73fb831a2c8392a2c0c989a02d5efdee9ff463d00ffd44601403b09bf4d3997",
-      "assets.html": "bb37932b6e298bcd1c6ae6d6cc885477437e14cad2a03b8cc7a64394bddbe603",
+      "assets.html": "a82de20946222632c1453b1bf5f27216281fe37d6b052876e1d4d2de36a6a526",
       "assets/LICENSE.txt": "50627e0935a8d86f3333fffe3045cd97045e4cbb81ba524d201fe52279fa095e",
       "assets/building-profiles.json": "38b439320f27d629f3c305396869cb8d6988a40918b0a98f72d8d8d8d3bb95c3",
       "assets/buildings.js": "ec4c86a9bed1c99e14dc2d91b17699546adbfe2ea22d0ecd40aecb85843373df",
-      "assets/catalog.js": "d34c84ecc00c59d885a4fbe87f671b2bbfe8732a3805d3a650d61042c969a774",
+      "assets/catalog.js": "8670a1d9ba526fe35a7cf8a852f4782853200354fa2dfdfc85419f897c96b6ae",
       "assets/landmark-references.json": "4be8120525ea65d892b6401bbbb3fb9d78a47608cf6eb1d13b42dd65dba6bc52",
       "assets/landmark-specs.js": "9e3cf5d72ebd382947583dbe671eca8283e672955da819f93f4b065ea1d38e8f",
       "assets/landmarks.js": "b8850a8bf1a5bf5df6be135c748fb3e4158ac54ce895d0c22d0d0cc749921a2f",
@@ -19,13 +19,13 @@
       "cinematic-landmarks.js": "b2f8cf03ff7421cb65c31e77b527e95d9438645263f6b76992ccce577f724207",
       "cinematic-route.js": "4a5aef8ca5b864fb5c0251d062f7fd47b63cc0667f3986cd8c991271954e5873",
       "cozy-environment.js": "a0fe4945f645a2eff9e364595f200433c4b7ab9312bb9e99dc14165a5b7a558e",
-      "credits.txt": "7ea0888e70098510284a414e5be844b4b0673a285bda345981a3353bf6182f95",
+      "credits.txt": "a728d924d77e539c83f7e390557b9187f55808fc42442f8f660c074a2a149e6e",
       "geo-layout.js": "2ba6643b015d68e46ad240ab133e6d7f17c68f7571a4c8784f3f45c57845dd63",
       "geography-wide.json": "d2a4ea30a85f5cb97517099a01c2a9860f3bb7fc7fdc94d1071590d92dca4626",
       "geography.json": "e91eff71131c90b742ea5fb5a8152bcc7b25a094a3121e4bfbf5133eaea904ec",
       "harness.js": "58a8b552994b5b2927813b47a94b459464871fedb05180a8fb67a78d732cabbe",
       "hill-layout.js": "5f24ba7b745d5b62877213d9c782d491e8eeeee89dc941f2755d03a7cb71ed34",
-      "index.html": "5f1094b74f56bcf4bebd345113fe036c81b6a4ab5e27edc09b30addaa11ac65b",
+      "index.html": "d86d6f87f7d4fb85a4b7625f2a837aaaecc6c2b3d412bed1dd88a625e123b98e",
       "interact.js": "94d27dd0b8f1e0b736c73f6e6a22728c5cc5b0adf03bdeb8806c12bc879fd39c",
       "landmark-layout.js": "cb6438e583ea49929cee24d0b6bf2eb808a875f66e7eb434bcc4de3b7347dd65",
       "lib/paper-life.js": "ad43243aac29dff4890a493986b99b8580f8018e368a05ae04c142eb580c3566",
@@ -40,6 +40,7 @@
       "record.js": "ff290a5a2e4351de3c86ab2f22b2361e9b3cddc316e1db125f34d640a387ca29",
       "scene.js": "340613797223c5233fc24ddf8e064a709271078123563c59ed19804b106d6598",
       "shadow-control.js": "3c508fc86178301000ff0981d2805366dd4a3571ddf100097455cfcb283b306c",
+      "vendor/OrbitControls.js": "e7fca2fe9e7670a828af9b28084669a5909445b7f36f1f26cee9bf8f2961c32c",
       "vendor/three.core.js": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578",
       "vendor/three.module.js": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341"
     }
