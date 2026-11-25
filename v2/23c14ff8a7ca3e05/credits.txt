@@ -1,0 +1,208 @@
+VERSIÓN V2 · ARQUITECTURA LOCAL
+
+Impresiones de fachadas y cubiertas V2: CC BY-SA 4.0.
+Referencias Mapillary con autor, id y observaciones: assets/references.json.
+Ver assets/manifest.json, assets/LICENSE.txt y la biblioteca assets.html.
+
+Hitos individuales: assets/landmark-references.json y assets/landmark-specs.js.
+Referencias específicas Mapillary y Wikimedia con autor y licencia por archivo.
+Fuentes descriptivas: Turismo y Cultura municipal; Parque Nacional Lanín.
+16 modelos nuevos; monumento ecuestre contrastado y orientado al sur.
+Las fotos de referencia no se redistribuyen como assets.
+
+La geografía y los motores son una copia de la original.
+A continuación se conservan íntegros sus créditos y licencias.
+
+PROYECTO LOCAL V11 · ESTADO ACTUAL EN README.md
+Las secciones siguientes conservan referencias y atribuciones de las versiones históricas.
+El conteo y la arquitectura vigentes se documentan en README.md y AGENTS.md.
+
+SAN MARTÍN DE LOS ANDES EN PAPEL · V5 POP-UP
+Referencias, atribuciones y licencias
+Fecha de consulta de cartografía y licencias: 23 de noviembre de 2026.
+
+1. CARTOGRAFÍA
+
+© OpenStreetMap contributors
+https://www.openstreetmap.org/copyright
+
+Los datos geográficos derivados incluidos en geography.json se distribuyen
+bajo la Open Data Commons Open Database License, versión 1.0 (ODbL 1.0):
+https://opendatacommons.org/licenses/odbl/1-0/
+
+Fuente de la extracción:
+https://api.openstreetmap.org/api/0.6/map?bbox=-71.367,-40.168,-71.339,-40.148
+
+Vista del área:
+https://www.openstreetmap.org/#map=16/-40.1588/-71.3545
+
+El archivo geography.json conserva la atribución, licencia, fecha, coordenadas
+y los identificadores de las entidades OSM. El recorte comprende calles,
+costa del lago Lácar, Pocahullo, plazas, superficies peatonales, muelle y
+huellas de edificios. Las proyecciones y trazados exportados para el render
+también proceden de esta cartografía.
+
+La escena v5 es una interpretación artística con 226 cartas: 130 casas,
+90 árboles y seis hitos. El motor añade cuatro laderas ilustradas desde
+popup-valley.png, para un total de 230 piezas. popup-layout.js conserva posiciones de referencia
+de los hitos y trazados simplificados de costa, calles, Pocahullo y plazas.
+El origen es la base terrestre del muelle, a 0,03 unidades por metro;
++x apunta al sudeste y +z hacia el lago. Avenida San Martín comienza al
+noroeste del muelle y llega al borde sudeste de Plaza San Martín.
+
+Los tamaños y frentes visibles de las cartas, alturas, materiales,
+vegetación y mobiliario son decisiones escénicas, no un relevamiento
+arquitectónico. Las 130 casas genéricas no identifican edificios reales.
+La maqueta Three.js anterior, conservada como modo adicional, contiene
+580 construcciones de relleno marcadas synthetic; ese conteo no pertenece
+al pop-up v5. La base derivada de OSM está disponible como ./geography.json.
+La licencia de los datos no cambia las licencias del software enumeradas
+a continuación.
+
+2. REFERENCIAS VISUALES Y DEL DESTINO
+
+Turismo de San Martín de los Andes, sitio oficial:
+https://sanmartindelosandes.gob.ar/ciudad/
+https://sanmartindelosandes.gob.ar/ver-circuito/?id=16
+https://sanmartindelosandes.gob.ar/folletos-del-destino/
+
+Esri World Imagery, servicio de referencia satelital:
+https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer
+Las imágenes pertenecen a Esri y a los proveedores identificados por el
+servicio. Se consultaron para comprobar la forma de la bahía y la relación
+entre costa, cuadrícula urbana y relieve.
+
+Interpatagonia, fotografías y vistas de la ciudad y del lago:
+https://www.interpatagonia.com/sanmartindelosandes/fotos.html
+
+Esquina comercial, fotografía de la Secretaría de Turismo:
+https://www.interpatagonia.com/sanmartindelosandes/imagenes/esquina-centro3-1352.html
+
+Plaza San Martín, fotografía de Eduardo Epifanio:
+https://www.interpatagonia.com/sanmartindelosandes/imagenes/plaza-san-martin-andes-32-111.html
+
+Monumento ecuestre, Cultura municipal, fotografía de Leonardo Guevara:
+https://cultura.sma.gob.ar/?p=6738
+
+Fotografía panorámica del lago y de la ciudad:
+Gonzalo Rivero, "Lacar-San Martin.jpg", Wikimedia Commons, CC BY-SA 4.0.
+https://commons.wikimedia.org/wiki/File:Lacar-San_Martin.jpg
+
+Fotografía de la Municipalidad:
+César Pérez, "Municipalidad de San Martin de los Andes 2022.jpg",
+Wikimedia Commons, CC BY-SA 4.0.
+https://commons.wikimedia.org/wiki/File:Municipalidad_de_San_Martin_de_los_Andes_2022.jpg
+
+Fotografía de la Intendencia del Parque Nacional Lanín:
+Albasmalko, "INTENDENCIA DEL PARQUE NACIONAL LANÍN.JPG",
+Wikimedia Commons, CC BY 2.5.
+https://commons.wikimedia.org/wiki/File:INTENDENCIA_DEL_PARQUE_NACIONAL_LAN%C3%8DN.JPG
+
+Estas fotografías e imágenes satelitales se consultaron como referencias.
+No se incluyen como fondos, texturas ni archivos en la distribución del
+sitio. Los recortes, estampados y composición se crearon para este proyecto.
+Los créditos no implican patrocinio de las fuentes.
+
+La presentación principal v5 se compone de cartas independientes sobre
+un suelo común: cada silueta transparente gira alrededor de su bisagra
+basal fija, con cara ilustrada, reverso kraft cálido, borde fino y sombra.
+Las curvas de apertura y cierre proceden de la clase FlapSpring real del
+kit, importada desde lib/paper-motion.js y muestreada por el motor. El recorrido
+se diseña para 48 segundos: las oleadas iniciales se despliegan durante
+0–3,6 segundos con cámara fija, y la cámara avanza después hacia el centro
+y la plaza. El control de plegar/desplegar invierte las bisagras.
+popup-cinema.js implementa la presentación Canvas 2D y popup-layout.js
+su disposición. No es una filmación del lugar ni una reconstrucción
+fotogramétrica de edificios completos.
+
+Los atlas popup-houses.png y popup-trees.png tienen ocho variantes cada
+uno (4 columnas por 2 filas); popup-landmarks.png contiene seis hitos
+(3 columnas por 2 filas). popup-valley.png añade cuatro laderas (2 columnas
+por 2 filas). Los cuatro PNG se generaron con la herramienta nativa de
+imágenes image_gen para este proyecto. cinema-coast.png y cinema-plaza.png
+aportan la referencia de papel mate, madera miel, luz lateral cálida,
+verdes luminosos y sombras verdeazuladas. Las fachadas, árboles e hitos son
+recortes nuevos e independientes; no son fotografías del lugar.
+
+Brief resumido de las laderas: cuatro siluetas anchas y bajas de bosque
+patagónico, perfil irregular, hojas y coníferas de cartulina superpuesta,
+roca cálida ocasional, textura fina y cantos de papel; base inferior limpia,
+cuadrícula 2 por 2, transparencia, sin cielo, edificios, texto, marcos ni
+picos nevados. El perfil se interpreta visualmente y no es una medición
+topográfica. Los árboles representan coihue, lenga, ciprés y arrayán, dos
+variantes por especie. La selección botánica y los detalles son artísticos.
+
+Los videos pop-up v5 proceden del mismo motor y muestran el despliegue
+real de las cartas. Ambos se exportaron y verificaron a 48 segundos, 24 fps,
+H.264 y BT.709, en 1920×1080 y 1080×1920, sin audio ni textos sobre la escena.
+Se revisaron las fases de apertura, los encuadres, el pliegue inverso y la
+repetición. Los videos sanma-cinema-landscape.mp4 y sanma-cinema-portrait.mp4 son
+montajes anteriores de 28 segundos, hechos a partir de ocho ilustraciones
+con paneos y fundidos; no documentan las bisagras v5. El módulo anterior
+live-cinema.js de parallax y la maqueta Three.js se conservan por separado.
+
+3. PAPERCRAFT
+
+Papercraft, de Shikhar / xikhar.
+Repositorio: https://github.com/xikhar/papercraft
+Instalación de la skill: npx skills add xikhar/papercraft
+Licencia original:
+https://github.com/xikhar/papercraft/blob/main/LICENSE
+
+Se aplica la skill y se utiliza la clase FlapSpring del kit para obtener
+las curvas de las bisagras en la presentación v5. La maqueta Three.js adicional utiliza la biblioteca
+de piezas, materiales, estampados y un harness adaptado. Las construcciones,
+recortes y disposición de San Martín de los Andes se diseñaron para este
+proyecto. La referencia de estilo no implica autoría ni patrocinio del
+proyecto por parte de xikhar.
+
+MIT License
+
+Copyright (c) 2026 Shikhar
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+4. THREE.JS
+
+Three.js, revisión 187, incluida en vendor/three.module.js y three.core.js.
+Repositorio: https://github.com/mrdoob/three.js
+Licencia de la revisión utilizada:
+https://github.com/mrdoob/three.js/blob/r187/LICENSE
+
+The MIT License
+
+Copyright © 2010-2026 three.js authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

@@ -1,0 +1,31 @@
+IMPRESIONES Y PALETAS DE ARQUITECTURA V2
+
+Las impresiones originales de assets/buildings.js, assets/landmarks.js y sus
+paletas son adaptaciones artísticas basadas en las referencias Mapillary y
+Wikimedia identificadas en references.json, landmark-references.json y
+manifest.json. Se conservan autores y licencias por referencia (incluida la
+fotografía de la iglesia bajo CC BY 3.0).
+
+Licencia: Creative Commons Attribution-ShareAlike 4.0 International
+https://creativecommons.org/licenses/by-sa/4.0/
+Texto legal: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+Cambios: simplificación de fachadas, materiales, cubiertas y aberturas en
+impresiones procedurales de papel; composición de tipologías reutilizables,
+sin incorporar los píxeles de las fotografías. Las paletas se adaptaron al
+estilo artístico de la maqueta. Los autores de las fotos no patrocinan V2.
+Las fuentes municipales y de Parques Nacionales se consultaron para datos
+descriptivos y rasgos arquitectónicos. Sus fotografías no se redistribuyen
+y no se declara una licencia abierta para esos originales.
+
+Mantener la atribución de cada fuente y la indicación de cambios al redistribuir
+estas impresiones o adaptaciones, y aplicar la misma licencia a sus derivados.
+
+Los datos de geografía siguen bajo ODbL: © OpenStreetMap contributors.
+El catálogo derivado de Overture Maps tiene fuentes OpenStreetMap,
+Microsoft ML Buildings y Google Open Buildings. Ver créditos del proyecto
+y metadatos locales de procedencia para sus condiciones correspondientes.
+
+El código del motor papercraft de xikhar y three.js conservan MIT y sus
+avisos de copyright en ../credits.txt. Esta licencia se refiere al arte nuevo,
+sin relicenciar el código ni los datos de terceros.

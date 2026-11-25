@@ -1,23 +1,13 @@
 # San Martín de los Andes en papel
 
-Maqueta de papel *pop-up* en 3D de San Martín de los Andes sobre el mapa real. Se ve en el navegador; un click pliega la zona que tocás.
+Maqueta interactiva de papel en Three.js sobre datos de OpenStreetMap. Todo se dibuja con código.
 
-**Ver:** https://franpiaggio.github.io/sanma-papel/
+- [Versión actual](https://franpiaggio.github.io/sanma-papel/): arquitectura local, hitos individuales, loader de montañas y bandada.
+- [Versión anterior](https://franpiaggio.github.io/sanma-papel/?old): copia exacta de la publicación 4e85ae2.
+- [Biblioteca de edificios y fuentes](https://franpiaggio.github.io/sanma-papel/assets.html).
 
-Hecho con three.js, el kit [papercraft de xikhar](https://github.com/xikhar/papercraft) y datos de OpenStreetMap. Todo se dibuja con código, sin imágenes.
+Arrastrá para girar, usá la rueda para acercar y hacé clic para plegar una zona. Los botones permiten repetir, pausar y plegar todo. El modo liviano se activa automáticamente en móviles; también se puede pedir con '?lite' o '?old&lite'.
 
-## Cómo se hizo
+Las versiones tienen directorios separados para evitar mezclas en caché. La original permanece en 'old/'; la actual, en 'v2/23c14ff8a7ca3e05/'. Este repositorio contiene sólo la web publicada.
 
-1. **Mapa real.** Calles, costa, el brazo del lago Lácar, bosques, la RN40/RP48 y los hitos (muelle, terminal, Intendencia, Plaza San Martín) salen de OpenStreetMap. Se convierten a coordenadas 3D: 0.06 unidades por metro, con el origen en el muelle.
-2. **Papel.** Cada casa, árbol y cerro es una "carta" de cartulina con grosor, impresa con código (ventanas, tejas, hojas), que se levanta desde la hoja con una bisagra y un resorte. El aspecto de maqueta fotografiada (papel mate, sombras cálidas, tilt-shift, grano) viene del kit papercraft de xikhar.
-3. **El valle.** Los cerros rodean el pueblo como en la realidad y se ubican solos sin pararse sobre ningún camino.
-4. **Rendimiento.** Hay unas 30 mil piezas. Se agrupan por material para dibujarse en pocas llamadas (`BatchedMesh`), las sombras se recalculan solo cuando algo se mueve, las piezas quietas se congelan y en el celular se usa una versión más liviana.
-5. **Recorrido.** Primero suben los cerros, después el pueblo en ola desde la costa; la cámara hace zoom al muelle y pasea hasta la plaza. Arrastrá para girar, usá la rueda para acercar o alejar, movete con WASD o las flechas (Shift para ir más rápido) y hacé click para plegar una zona.
-
-Esta carpeta es solo la web publicada; el código fuente está en un repo privado.
-
-## Créditos y licencias
-
-- Datos del mapa: © colaboradores de OpenStreetMap, [ODbL](https://opendatacommons.org/licenses/odbl/) (`geography*.json`).
-- `lib/paperkit-*.js`, `lib/paper-*.js`, `harness.js`: basados en [xikhar/papercraft](https://github.com/xikhar/papercraft), licencia MIT.
-- `vendor/three.*.js`: [three.js](https://threejs.org), licencia MIT.
+Datos: © OpenStreetMap contributors, ODbL. Motor papercraft de [xikhar](https://github.com/xikhar/papercraft) y [three.js](https://threejs.org/): MIT. Impresiones y paletas de arquitectura V2: CC BY-SA 4.0, con autores y licencias de sus referencias en la biblioteca. Ver [créditos](credits.txt), [licencia de assets](LICENSE-ASSETS.txt) y [licencias del motor](LICENSE-THIRD-PARTY.md).

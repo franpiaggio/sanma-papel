@@ -27,3 +27,8 @@ SOFTWARE.
 ## three.js (MIT)
 
 Copyright © 2010-2026 three.js authors. Released under the MIT License: https://github.com/mrdoob/three.js/blob/dev/LICENSE
+
+
+## Arquitectura V2
+
+Impresiones y paletas: CC BY-SA 4.0. Ver LICENSE-ASSETS.txt y la biblioteca assets.html para las atribuciones individuales de Mapillary y Wikimedia. La geografía conserva ODbL y la atribución © OpenStreetMap contributors.
