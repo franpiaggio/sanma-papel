@@ -1,7 +1,7 @@
 {
   "current": {
     "edition": "v2",
-    "directory": "v2/66fa33b04e4c7e73/",
+    "directory": "v2/cb36420ee111a81b/",
     "files": {
       "architecture.js": "b73fb831a2c8392a2c0c989a02d5efdee9ff463d00ffd44601403b09bf4d3997",
       "assets.html": "a82de20946222632c1453b1bf5f27216281fe37d6b052876e1d4d2de36a6a526",
@@ -23,7 +23,7 @@
       "geo-layout.js": "2ba6643b015d68e46ad240ab133e6d7f17c68f7571a4c8784f3f45c57845dd63",
       "geography-wide.json": "d2a4ea30a85f5cb97517099a01c2a9860f3bb7fc7fdc94d1071590d92dca4626",
       "geography.json": "e91eff71131c90b742ea5fb5a8152bcc7b25a094a3121e4bfbf5133eaea904ec",
-      "harness.js": "58a8b552994b5b2927813b47a94b459464871fedb05180a8fb67a78d732cabbe",
+      "harness.js": "584c1e7d7f0a2605366d17d1d2354f0ffbefc70d044454bf25daad1113ed303a",
       "hill-layout.js": "5f24ba7b745d5b62877213d9c782d491e8eeeee89dc941f2755d03a7cb71ed34",
       "index.html": "d86d6f87f7d4fb85a4b7625f2a837aaaecc6c2b3d412bed1dd88a625e123b98e",
       "interact.js": "94d27dd0b8f1e0b736c73f6e6a22728c5cc5b0adf03bdeb8806c12bc879fd39c",

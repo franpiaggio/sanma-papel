@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#ece5d6">
+  <title>Edificios · San Martín en papel</title>
+  <link rel="icon" href="data:,">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js","papercraft/":"./"}}</script>
+  <style>
+    :root{color-scheme:light;--paper:#eee8da;--ink:#383e31;--line:#c9c3b0;--green:#44604e}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 'Avenir Next',Avenir,sans-serif}
+    a{color:var(--green);text-underline-offset:4px}a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--green);outline-offset:4px}
+    header,main{max-width:1400px;margin:auto;padding:22px 5vw}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);gap:20px;font-size:13px}
+    .info{display:grid;place-items:center;width:32px;height:32px;padding:0;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--green);font:italic 21px/1 Georgia,serif;cursor:pointer}.info:hover{background:#dce0ce}
+    .workspace{display:grid;grid-template-columns:285px 1fr;border:1px solid var(--line);border-width:0 0 1px;margin:0}
+    .types{padding:12px 0;border-right:1px solid var(--line);max-height:calc(clamp(360px,64vh,640px) + 61px);overflow:auto}.types .group-label{padding:8px 12px;margin:0;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}.types button{width:100%;text-align:left;border:0;background:transparent;color:var(--ink);padding:11px 18px 11px 12px;cursor:pointer;display:flex;align-items:baseline;gap:16px;font:inherit;line-height:1.3}.types button small{font-size:10px;color:#72745f}.types button[aria-pressed=true]{background:#dce0ce;box-shadow:inset 3px 0 var(--green)}.types button:hover{background:#e3e1d1}
+    .preview{min-width:0}#stage{height:clamp(360px,64vh,640px);position:relative;touch-action:none}#stage canvas{display:block;width:100%;height:100%;cursor:grab;outline-offset:-4px}#stage canvas:active{cursor:grabbing}.controls{border-top:1px solid var(--line);padding:16px 24px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}.controls label{font-size:12px;display:flex;gap:10px;align-items:center}.controls input{width:180px;accent-color:var(--green)}#swatches{display:flex;gap:5px;margin-left:auto}#swatches i{width:18px;height:18px;border:1px solid #625f4633;border-radius:50%}
+    #stage canvas{outline:none}#stage canvas:focus-visible{outline:2px solid var(--green);outline-offset:-4px}
+    .selection{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:22px 0}.selection h1{font:26px/1.2 Georgia,serif;font-weight:normal;margin:0}.selection a{font-size:13px;white-space:nowrap}
+    dialog{width:min(580px,calc(100vw - 40px));max-height:calc(100dvh - 48px);padding:28px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit}dialog::backdrop{background:#282d2466}dialog h2{font:28px/1.2 Georgia,serif;margin:0 0 20px}dialog form{float:right}dialog form button{width:28px;height:28px;border:0;background:transparent;color:var(--ink);font:24px/1 sans-serif;cursor:pointer}dialog ul{list-style:none;padding:0}dialog li{padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}dialog li p{margin:4px 0;color:#686957}.credits{font-size:12px;color:#686957}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}#error{padding:50px;color:#883e28}
+    @media(max-width:800px){.workspace{grid-template-columns:1fr}.types{display:flex;overflow:auto;border-right:0;border-bottom:1px solid var(--line);padding:0}.types button{min-width:185px;width:auto;padding:14px}.types button small,.types .group-label{display:none}#stage{height:clamp(330px,52svh,500px)}header,main{padding-left:6vw;padding-right:6vw}.controls{padding:14px;gap:12px}.controls input{width:145px}#swatches{gap:4px}.selection{align-items:flex-start;flex-direction:column;gap:12px}.selection h1{font-size:24px}}
+  </style>
+</head>
+<body>
+  <header><a href="./index.html">← Mapa</a><button class="info" id="info" type="button" aria-label="Fuentes y créditos" aria-haspopup="dialog">i</button></header>
+  <main>
+    <div class="workspace">
+      <nav class="types" aria-label="Edificios" id="types"></nav>
+      <div class="preview"><div id="stage" aria-label="Inspector de edificios"></div>
+        <p class="sr-only" id="viewer-help">Arrastrá para girar. Rueda para acercar. Botón derecho para desplazar. Doble clic o R para centrar. Con teclado: flechas para desplazar y Mayús más flechas para girar.</p>
+        <div class="controls"><label>Plegar <input id="fold" type="range" min="0" max="100" value="100" aria-label="Despliegue del edificio"></label><div id="swatches" aria-label="Paleta del edificio"></div></div>
+      </div>
+    </div>
+    <div class="selection"><h1 id="name"></h1><a id="view-on-map" hidden>Ver en el mapa →</a></div>
+  </main>
+  <dialog id="info-dialog" aria-labelledby="info-title">
+    <form method="dialog"><button aria-label="Cerrar">×</button></form>
+    <h2 id="info-title">Fuentes</h2>
+    <p id="description"></p><ul id="sources"></ul>
+    <p class="credits"><a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · © OpenStreetMap contributors, ODbL · papercraft y three.js, MIT. <a href="./credits.txt">Créditos</a></p>
+  </dialog>
+  <script type="module" src="./assets/catalog.js"></script>
+</body>
+</html>

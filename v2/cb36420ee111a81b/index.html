@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#2b6f6c">
+  <meta name="description" content="San Martín de los Andes como maqueta de papel: del lago Lácar a la Plaza San Martín.">
+  <title>San Martín de los Andes · papel · V2 arquitectura local</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b6f6c'/%3E%3Cpath d='M8 44 26 14 36 34 46 22 58 44Z' fill='%23e8dcb8'/%3E%3C/svg%3E">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js","papercraft/":"./"}}</script>
+  <link rel="stylesheet" href="./loader.css">
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #d9d2c2; }
+    body { font: 14px/1.2 system-ui, sans-serif; -webkit-user-select: none; user-select: none; }
+    #hint { display: none; }
+    #veil { position: fixed; inset: 0; background: #d9d2c2; transition: opacity .9s ease; z-index: 5;
+      display: grid; place-content: center; justify-items: center; gap: 18px; color: #4a4235; font: 15px/1.3 system-ui, sans-serif; }
+    body.ready #veil { opacity: 0; pointer-events: none; }
+    .bar { width: min(240px, 60vw); height: 3px; background: rgba(74,66,53,.15); border-radius: 2px; overflow: hidden; }
+    .bar b { display: block; height: 100%; width: 3%; background: #8b6f4e; transition: width .4s ease; }
+    #veil button { font: inherit; padding: 8px 14px; border-radius: 999px; border: 1px solid #8b6f4e; background: #f3ecd9; color: inherit; cursor: pointer; }
+    .controls { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
+      display: flex; gap: 4px; padding: 4px; border-radius: 999px; z-index: 10;
+      background: rgba(250, 245, 232, .72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 1px 2px rgba(60, 40, 20, .18), 0 6px 18px rgba(60, 40, 20, .12);
+      opacity: 0; transition: opacity .4s ease; }
+    body.ready .controls { opacity: 1; }
+    body.idle .controls { opacity: .25; }
+    .controls button { width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: #3d3427;
+      display: grid; place-items: center; cursor: pointer; }
+    .controls button:hover { background: rgba(61, 52, 39, .08); }
+    .controls button:focus-visible { outline: 2px solid #2b6f6c; outline-offset: 1px; }
+    .controls svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .controls span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    #pause .i-play { display: none; }
+    #pause[aria-pressed="true"] .i-play { display: block; }
+    #pause[aria-pressed="true"] .i-pause { display: none; }
+    @media (prefers-reduced-motion: reduce) { #veil, .controls { transition: none; } }
+    .edition { position:fixed; left:max(16px,env(safe-area-inset-left)); bottom:max(22px,env(safe-area-inset-bottom)); z-index:10; color:#3d4b3d; text-decoration:none; background:rgba(250,245,232,.8); width:32px; height:32px; display:grid; place-items:center; border-radius:50%; opacity:0; pointer-events:none; }
+    .edition svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; }
+    body.ready .edition { opacity:1; pointer-events:auto; }
+    .edition:focus-visible { outline:2px solid #2b6f6c; outline-offset:3px; }
+  </style>
+</head>
+<body>
+  <div id="veil" role="status" aria-live="polite">
+    <div class="loading-range" aria-hidden="true">
+      <div class="loading-ground"></div>
+      <div class="peak peak-low"><svg viewBox="0 0 160 85"><path class="cut" fill="#aab491" d="M2 83 32 53 55 42 72 19 85 26 100 12 118 40 137 51 158 83Z"/><path fill="#bec3a3" d="m72 19 4 64H2l30-30 23-11Z"/><path class="print" d="m24 75 31-22 15-18m17 39 15-39 28 32"/></svg></div>
+      <div class="peak peak-osorno"><svg viewBox="0 0 140 108"><path class="cut" fill="#859c8b" d="M2 106 32 74 54 31 68 7 75 7 88 32 107 77 138 106Z"/><path fill="#eae8d7" d="m54 31 14-24h7l13 25 10 24-16-9-9 8-8-16-17 9Z"/><path fill="#b7c0ae" d="m75 7 13 25 10 24-16-9-9 8Z"/><path class="print" d="m16 98 32-35m44 8 25 24"/></svg></div>
+      <div class="peak peak-tronador"><svg viewBox="0 0 180 120"><path class="cut" fill="#8f9e93" d="M2 118 28 83 45 60 61 29 74 43 90 13 107 38 122 23 137 56 157 80 178 118Z"/><path fill="#eeecdd" d="m45 60 16-31 13 14 16-30 17 25 15-15 15 33 9 12-18-4-8 12-17-17-13 12-13-13-14 13-7-12Z"/><path fill="#bcc8bf" d="m90 13 17 25 15-15-2 53-17-17-13 12Z"/><path fill="#aab8a8" d="m61 29 13 14-11 75H2l26-35 17-23Z"/><path class="print" d="m31 99 19-21m69 19 10-18 24 24m-76-3 8-20"/></svg></div>
+      <div class="peak peak-villarrica"><svg viewBox="0 0 155 129"><path class="cut" fill="#8da18f" d="M2 127 31 93 53 47 68 16 79 12 89 17 104 50 125 95 153 127Z"/><path fill="#f0ecdd" d="m53 47 15-31 11-4 10 5 15 33 12 25-17-8-8 8-11-17-13 7-10-8-14 14Z"/><path fill="#bdc8b9" d="m79 12 10 5 15 33 12 25-17-8-8 8-11-17Z"/><path fill="#6e8174" d="m68 16 11-4 10 5-10 4Z"/><path class="print" d="m20 115 27-32m59 5 25 30"/></svg></div>
+      <div class="peak peak-lanin"><svg viewBox="0 0 170 164"><path class="cut" fill="#7d9682" d="M2 162 30 126 54 74 72 28 82 4 89 7 103 42 120 87 143 133 168 162Z"/><path fill="#f1efdf" d="m54 74 18-46L82 4l7 3 14 35 17 45-20-14-8 13-13-25-12 18-8-9-14 24Z"/><path fill="#c4cebc" d="m82 4 7 3 14 35 17 45-20-14-8 13-13-25Z"/><path fill="#9eaf91" d="m72 28-5 51-9 40-28 43H2l28-36 24-52Z"/><path class="print" d="m27 146 24-39m20 36 10-37m31 5 26 37m-35-49 11 26"/><path stroke="#e4e0ca" stroke-width="1.2" fill="none" d="m82 5-3 56 2 45"/></svg></div>
+    </div>
+    <div id="load-text" class="loading-accessible">Cargando…</div>
+    <div class="bar" aria-hidden="true"><b id="load-bar"></b></div>
+    <button id="load-retry" type="button" hidden>Reintentar</button>
+  </div>
+  <a class="edition" href="./assets.html" aria-label="Edificios y fuentes" title="Edificios y fuentes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 11v7"/><circle cx="12" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+  <nav class="controls" aria-label="Controles">
+    <button id="replay" type="button" title="Repetir recorrido"><svg viewBox="0 0 24 24"><path d="M4 9a8 8 0 1 1 0 6M4 3v6h6"/></svg><span>Repetir recorrido</span></button>
+    <button id="pause" type="button" aria-pressed="false" title="Pausa">
+      <svg class="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>
+      <svg class="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></svg><span>Pausa</span></button>
+    <button id="fold" type="button" title="Plegar"><svg viewBox="0 0 24 24"><path d="m3 6 6-2 6 3 6-2v14l-6 2-6-3-6 2ZM9 4v14M15 7v14"/></svg><span>Plegar</span></button>
+  </nav>
+  <script type="module">
+    const text = document.getElementById('load-text'), bar = document.getElementById('load-bar');
+    window.__loading = (msg, pct) => { if (pct != null) bar.style.width = pct + '%'; };   // stages only move the bar
+    document.getElementById('load-retry').addEventListener('click', () => location.reload());
+    // Let the loader paint before the heavy imports start.
+    await new Promise((r) => { let d = false; const go = () => { if (!d) { d = true; setTimeout(r, 0); } }; requestAnimationFrame(go); setTimeout(go, 60); });
+    const Q = new URLSearchParams(location.search);
+    try {
+      await import('./scene.js');
+    } catch (error) {
+      console.error(error);
+      text.textContent = 'No se pudo armar la maqueta. ' + (error?.message || '');
+      text.classList.remove('loading-accessible');
+      document.getElementById('load-retry').hidden = false;
+      document.querySelector('.loading-range').hidden = true;
+      throw error;
+    }
+    window.__loading('Listo', 100);
+    // Warm up behind the loader: compile every shader, upload every texture and
+    // let frames render until they come out steady, then start the tour. The
+    // first seconds used to stutter while the GPU caught up with the rise.
+    {
+      const S = window.__sanMartin, R = S.H.renderer;
+      const startup = S.startupT = {}, compileAt = performance.now();
+      window.__loading('', 94);
+      R.compile(S.H.scene, S.H.camera);
+      startup.compileMs = Math.round(performance.now() - compileAt);
+      const uploadAt = performance.now();
+      const seen = new Set(), seenMaterials = new Set();
+      S.H.scene.traverse((o) => { const ms = o.material ? (Array.isArray(o.material) ? o.material : [o.material]) : [];
+        for (const m of ms) { if (!m || seenMaterials.has(m)) continue; seenMaterials.add(m);
+          for (const k of ['map', 'normalMap', 'emissiveMap']) { const t = m[k]; if (t && !seen.has(t)) { seen.add(t); R.initTexture(t); } } } });
+      startup.uploadMs = Math.round(performance.now() - uploadAt);
+      const t0 = performance.now(); let last = t0, steady = 0;
+      await new Promise((resolve) => { const tick = () => { const now = performance.now(), dt = now - last; last = now;
+        steady = dt < 34 ? steady + 1 : 0;
+        if (steady >= 10 || now - t0 > 6000) resolve(); else requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+      startup.warmupMs = Math.round(performance.now() - t0);
+      window.__loading('', 100);
+      if(Q.get('landmark')&&!Q.has('record')){
+        if(!S.focusLandmark(Q.get('landmark'))&&!matchMedia('(prefers-reduced-motion:reduce)').matches)S.tour.restart();
+      }else if (!Q.has('record') && !matchMedia('(prefers-reduced-motion:reduce)').matches) S.tour.restart();
+    }
+    requestAnimationFrame(() => document.body.classList.add('ready'));
+    if (Q.has('capture') || Q.has('record')) document.querySelector('.edition').hidden = true;
+    if (new URLSearchParams(location.search).has('record')) {
+      document.querySelector('.controls').hidden = true;
+      (await import('./record.js')).record();
+    }
+    let timer;
+    const wake = () => { document.body.classList.remove('idle'); clearTimeout(timer); timer = setTimeout(() => document.body.classList.add('idle'), 2500); };
+    for (const type of ['pointermove', 'pointerdown', 'keydown']) addEventListener(type, wake, { passive: true });
+    wake();
+  </script>
+</body>
+</html>

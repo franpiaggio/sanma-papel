@@ -1,0 +1,854 @@
+{
+  "version": 1,
+  "records": [
+    {
+      "id": "monumento-san-martin",
+      "name": "Monumento al General San Martín",
+      "sourceId": "way/1025539992",
+      "traits": [
+        "Caballo caminando, con las patas delanteras sin encabritarse",
+        "Jinete con poncho y bicornio, catalejo en la mano",
+        "Pedestal bajo de piedra; figura próxima al suelo",
+        "Orientado al sur, hacia la avenida San Martín"
+      ],
+      "evidence": "individual-visual",
+      "references": [],
+      "descriptive_sources": [
+        {
+          "url": "https://cultura.sma.gob.ar/?p=6738",
+          "author": "Departamento de Patrimonio Histórico y Ciencias; fotografía de Leonardo Guevara",
+          "description": "Descripción municipal del caballo, jinete, orientación y pedestal. Modelo existente contrastado y conservado."
+        }
+      ],
+      "frontCamera": null,
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "municipalidad",
+      "name": "Municipalidad y torre del reloj",
+      "sourceId": "way/815953968",
+      "traits": [
+        "Torre rectangular de piedra, alta respecto del ala lateral",
+        "Dos plantas revocadas y gran franja de madera bajo el alero profundo",
+        "Relojes pequeños, balcón oscuro en la torre y pérgola de acceso",
+        "Ciervo de bronce en el jardín"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:288764792803740",
+          "author": "guillemmal",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=288764792803740",
+          "local_crop": "crops/ovt_23dc1317-3109-490f-8cbb-e49dfa75ab98/00_mly_288764792803740.jpg",
+          "camera": [
+            -71.352211434269,
+            -40.156540578282
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:3930362263676519",
+          "author": "guillemmal",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=3930362263676519",
+          "local_crop": "crops/ovt_23dc1317-3109-490f-8cbb-e49dfa75ab98/01_mly_3930362263676519.jpg",
+          "camera": [
+            -71.352223933253,
+            -40.156529226384
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1156818932104801",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1156818932104801",
+          "local_crop": "crops/ovt_23dc1317-3109-490f-8cbb-e49dfa75ab98/03_mly_1156818932104801.jpg",
+          "camera": [
+            -71.352067872547,
+            -40.156112667903
+          ]
+        },
+        {
+          "source": "Wikimedia Commons",
+          "id": "File:Municipalidad de San Martin de los Andes 2022.jpg",
+          "author": "César Pérez ",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "url": "https://commons.wikimedia.org/wiki/File:Municipalidad_de_San_Martin_de_los_Andes_2022.jpg",
+          "local_file": "data-local/sources/wikimedia/img/d3d34ea3809e.jpg"
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.352211434269,
+        -40.156540578282
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "san-jose",
+      "name": "Parroquia San José",
+      "sourceId": "way/836815437",
+      "traits": [
+        "Nave longitudinal de piedra con ventanas circulares y contrafuertes",
+        "Campanario blanco con cornisas, ventanas pequeñas y vanos abiertos",
+        "Cubierta baja, aguja oscura y pórtico blanco con columnas"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:1228825362001988",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1228825362001988",
+          "local_crop": "crops/ovt_1e4aa3cd-5501-4d6d-89dd-8fd1ae6bcee1/01_mly_1228825362001988.jpg",
+          "camera": [
+            -71.351382754531,
+            -40.156396985352
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:549003667459316",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=549003667459316",
+          "local_crop": "crops/ovt_1e4aa3cd-5501-4d6d-89dd-8fd1ae6bcee1/00_mly_549003667459316.jpg",
+          "camera": [
+            -71.351455756132,
+            -40.156289232723
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1295843321698340",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1295843321698340",
+          "local_crop": "crops/ovt_1e4aa3cd-5501-4d6d-89dd-8fd1ae6bcee1/03_mly_1295843321698340.jpg",
+          "camera": [
+            -71.351297835295,
+            -40.15583944696
+          ]
+        },
+        {
+          "source": "Wikimedia Commons",
+          "id": "File:Vista iglesia - panoramio.jpg",
+          "author": "Gervacio Rosales",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "url": "https://commons.wikimedia.org/wiki/File:Vista_iglesia_-_panoramio.jpg",
+          "local_file": "data-local/sources/wikimedia/img/f501f4acfa95.jpg"
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.351382754531,
+        -40.156396985352
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "intendencia",
+      "name": "Intendencia histórica del Parque Nacional Lanín",
+      "sourceId": "way/451972974",
+      "traits": [
+        "Basamento de piedra y planta alta de madera horizontal",
+        "Cuatro buhardillas sobre una cubierta a cuatro aguas",
+        "Porche central sostenido por postes de madera",
+        "Chimenea alta de piedra"
+      ],
+      "evidence": "individual-visual",
+      "references": [],
+      "descriptive_sources": [
+        {
+          "url": "https://www.pnlanin.com.ar/img/54_Folleto%20CENTRO%20DE%20VISITANTES.pdf",
+          "author": "Administración de Parques Nacionales · Parque Nacional Lanín",
+          "description": "Folleto del Centro de Visitantes: basamento de piedra, madera, cubierta pendiente, cuatro buhardillas y galería."
+        },
+        {
+          "url": "https://sanmartindelosandes.gob.ar/ciudad/",
+          "author": "Secretaría de Turismo municipal",
+          "description": "Fotografía histórica del edificio y localización."
+        }
+      ],
+      "frontCamera": null,
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "primeros-pobladores",
+      "name": "Museo Primeros Pobladores",
+      "sourceId": "way/815953969",
+      "traits": [
+        "Casa baja de tablas de madera verticales",
+        "Ventanas altas con marcos claros",
+        "Acceso saliente con hastial de troncos y baranda de madera"
+      ],
+      "evidence": "individual-visual",
+      "references": [],
+      "descriptive_sources": [
+        {
+          "url": "https://sanmartindelosandes.gob.ar/ciudad/",
+          "author": "Secretaría de Turismo municipal",
+          "description": "Fotografía del acceso del museo: tablas verticales, pórtico de troncos con hastial y marcos claros."
+        }
+      ],
+      "frontCamera": null,
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "teatro-san-jose",
+      "name": "Teatro San José",
+      "sourceId": "way/815953971",
+      "traits": [
+        "Sala longitudinal de madera ocre y cubierta a dos aguas",
+        "Frente de hastial con puerta alta y luneta superior",
+        "Anexo más alto de revoque verde junto a la sala"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:1228825362001988",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1228825362001988",
+          "local_crop": "crops/ovt_ec2d9caf-4f99-41b1-bacc-24cbce15c507/00_mly_1228825362001988.jpg",
+          "camera": [
+            -71.351382754531,
+            -40.156396985352
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:549003667459316",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=549003667459316",
+          "local_crop": "crops/ovt_ec2d9caf-4f99-41b1-bacc-24cbce15c507/02_mly_549003667459316.jpg",
+          "camera": [
+            -71.351455756132,
+            -40.156289232723
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1470829273959776",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1470829273959776",
+          "local_crop": "crops/ovt_ec2d9caf-4f99-41b1-bacc-24cbce15c507/01_mly_1470829273959776.jpg",
+          "camera": [
+            -71.35126647467,
+            -40.156591641646
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.351382754531,
+        -40.156396985352
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "terminal",
+      "name": "Terminal de Ómnibus",
+      "sourceId": "way/816348664",
+      "traits": [
+        "Volumen bajo de piedra y carpinterías verdes",
+        "Franja alta de chapa verde y ventanas pequeñas corridas",
+        "Marquesina larga de acceso y letrero terminal"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:1175704496725485",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1175704496725485",
+          "local_crop": "crops/ovt_aa3b6deb-6846-40d7-9758-6dc6d9dfcce3/01_mly_1175704496725485.jpg",
+          "camera": [
+            -71.357527,
+            -40.1603089
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1286193172670700",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1286193172670700",
+          "local_crop": "crops/ovt_aa3b6deb-6846-40d7-9758-6dc6d9dfcce3/02_mly_1286193172670700.jpg",
+          "camera": [
+            -71.357875682808,
+            -40.160430670042
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.357527,
+        -40.1603089
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "patagonia-plaza",
+      "name": "Patagonia Plaza Hotel",
+      "sourceId": "way/816349980",
+      "traits": [
+        "Bloque alto de cuatro niveles sobre basamento oscuro vidriado",
+        "Paños claros, marcos blancos y cuerpos de hastial salientes",
+        "Cubierta gris oscura con varios frontones"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:955828002925725",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=955828002925725",
+          "local_crop": "crops/ovt_d7320922-1ce9-4b7a-aa38-9cb674de3068/02_mly_955828002925725.jpg",
+          "camera": [
+            -71.354914490175,
+            -40.15813168308
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:9298804566832830",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=9298804566832830",
+          "local_crop": "crops/ovt_d7320922-1ce9-4b7a-aa38-9cb674de3068/03_mly_9298804566832830.jpg",
+          "camera": [
+            -71.354877789238,
+            -40.158192161601
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.354914490175,
+        -40.15813168308
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "tunqueley",
+      "name": "Hotel Tunqueley",
+      "sourceId": "way/836815432",
+      "traits": [
+        "Frente ancho de tres plantas con bandas blancas horizontales",
+        "Balcones corridos y barandas oscuras",
+        "Carpinterías de madera y cubierta baja"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:2615348981999101",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=2615348981999101",
+          "local_crop": "crops/ovt_ca6b9904-40ed-4214-86e5-2933e83f0095/02_mly_2615348981999101.jpg",
+          "camera": [
+            -71.350280593444,
+            -40.155529074252
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:504969632708706",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=504969632708706",
+          "local_crop": "crops/ovt_ca6b9904-40ed-4214-86e5-2933e83f0095/01_mly_504969632708706.jpg",
+          "camera": [
+            -71.350250097658,
+            -40.155577270924
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:930130289275651",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=930130289275651",
+          "local_crop": "crops/ovt_ca6b9904-40ed-4214-86e5-2933e83f0095/03_mly_930130289275651.jpg",
+          "camera": [
+            -71.350308581993,
+            -40.155508653075
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.350280593444,
+        -40.155529074252
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "le-chatelet",
+      "name": "Le Châtelet Hotel",
+      "sourceId": "way/836892626",
+      "traits": [
+        "Entramado marrón sobre revoque blanco",
+        "Pequeña torre central cuadrada con remate y hastial",
+        "Galería y pérgola bajas junto al acceso"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:3483854501917792",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=3483854501917792",
+          "local_crop": "crops/ovt_b6ecc907-74d9-4428-8ae9-41fe667ede93/01_mly_3483854501917792.jpg",
+          "camera": [
+            -71.3524593,
+            -40.1586404
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1025248492964016",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1025248492964016",
+          "local_crop": "crops/ovt_b6ecc907-74d9-4428-8ae9-41fe667ede93/03_mly_1025248492964016.jpg",
+          "camera": [
+            -71.3522692,
+            -40.158576
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1021599493118313",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1021599493118313",
+          "local_crop": "crops/ovt_b6ecc907-74d9-4428-8ae9-41fe667ede93/00_mly_1021599493118313.jpg",
+          "camera": [
+            -71.352446414544,
+            -40.158630256286
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.3524593,
+        -40.1586404
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "walkirias",
+      "name": "Hostería Las Walkirias",
+      "sourceId": "way/836899955",
+      "traits": [
+        "Madera oscura con zócalo de piedra y marcos blancos",
+        "Dos hastiales asimétricos de fuerte pendiente",
+        "Ventanas arqueadas y chimenea de piedra muy visible"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:1655376209194273",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1655376209194273",
+          "local_crop": "crops/ovt_055efee1-2677-4f5f-8f22-d69de7b33222/01_mly_1655376209194273.jpg",
+          "camera": [
+            -71.350141974238,
+            -40.15789505924
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:956446486625304",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=956446486625304",
+          "local_crop": "crops/ovt_055efee1-2677-4f5f-8f22-d69de7b33222/00_mly_956446486625304.jpg",
+          "camera": [
+            -71.350296997293,
+            -40.158154235465
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.350141974238,
+        -40.15789505924
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "rosa-viajes",
+      "name": "Hotel Rosa de los Viajes",
+      "sourceId": "way/815953952",
+      "traits": [
+        "Frente de madera rojiza de tres plantas",
+        "Cuerpo central vidriado que sobresale y pequeños hastiales",
+        "Planta baja comercial con alero continuo"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:521306404330643",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=521306404330643",
+          "local_crop": "crops/ovt_60b1bb59-dd17-44fb-982b-9578a05a9bf4/00_mly_521306404330643.jpg",
+          "camera": [
+            -71.350553123715,
+            -40.15681325315
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1257582141993004",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1257582141993004",
+          "local_crop": "crops/ovt_60b1bb59-dd17-44fb-982b-9578a05a9bf4/01_mly_1257582141993004.jpg",
+          "camera": [
+            -71.350783497742,
+            -40.156888008986
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.350553123715,
+        -40.15681325315
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "caupolican",
+      "name": "Hotel Caupolicán",
+      "sourceId": "way/815953934",
+      "traits": [
+        "Gran frente vidriado continuo y marco oscuro",
+        "Pisos altos claros con barandas de madera",
+        "Remate de buhardillas sobre cubierta gris"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:1686909105565106",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1686909105565106",
+          "local_crop": "crops/ovt_c2b7d21d-64ca-427f-9b33-fca543afc714/00_mly_1686909105565106.jpg",
+          "camera": [
+            -71.348931448712,
+            -40.156292110889
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1719981385563694",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1719981385563694",
+          "local_crop": "crops/ovt_c2b7d21d-64ca-427f-9b33-fca543afc714/01_mly_1719981385563694.jpg",
+          "camera": [
+            -71.348697823126,
+            -40.156214765196
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:3963179723957832",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=3963179723957832",
+          "local_crop": "crops/ovt_c2b7d21d-64ca-427f-9b33-fca543afc714/02_mly_3963179723957832.jpg",
+          "camera": [
+            -71.349169865435,
+            -40.156372900997
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.348931448712,
+        -40.156292110889
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "le-ville",
+      "name": "Le Ville Hotel",
+      "sourceId": "way/836638810",
+      "traits": [
+        "Revoque marfil con miradores de madera salientes",
+        "Torre esbelta de madera y piedra junto al acceso",
+        "Porches y hastiales escalonados"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:535952165565383",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=535952165565383",
+          "local_crop": "crops/ovt_38930a2f-f5f1-44d7-b3fe-daceda5bb43c/03_mly_535952165565383.jpg",
+          "camera": [
+            -71.351307735875,
+            -40.155829834067
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:9252226694868691",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=9252226694868691",
+          "local_crop": "crops/ovt_38930a2f-f5f1-44d7-b3fe-daceda5bb43c/00_mly_9252226694868691.jpg",
+          "camera": [
+            -71.351117547806,
+            -40.155755986169
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1690501621843446",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1690501621843446",
+          "local_crop": "crops/ovt_38930a2f-f5f1-44d7-b3fe-daceda5bb43c/01_mly_1690501621843446.jpg",
+          "camera": [
+            -71.351049073434,
+            -40.155733412739
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.351307735875,
+        -40.155829834067
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "cumelen",
+      "name": "Hostería Cumelén",
+      "sourceId": "way/836905466",
+      "traits": [
+        "Dos cuerpos asimétricos de madera parda con cubierta quebrada",
+        "Planta baja clara y ventanas de hojas pequeñas",
+        "Balcón frontal y entrada baja entre los volúmenes"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:1120628969531436",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1120628969531436",
+          "local_crop": "crops/ovt_a022bd5a-9d79-442b-8738-18b16a33de0e/03_mly_1120628969531436.jpg",
+          "camera": [
+            -71.347647062676,
+            -40.157366297535
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1567825397268905",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1567825397268905",
+          "local_crop": "crops/ovt_a022bd5a-9d79-442b-8738-18b16a33de0e/02_mly_1567825397268905.jpg",
+          "camera": [
+            -71.34755535741,
+            -40.157474867578
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:600538866142869",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=600538866142869",
+          "local_crop": "crops/ovt_a022bd5a-9d79-442b-8738-18b16a33de0e/00_mly_600538866142869.jpg",
+          "camera": [
+            -71.347581437749,
+            -40.157511062354
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.347647062676,
+        -40.157366297535
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "chapelco-ski",
+      "name": "Chapelco Ski Hotel",
+      "sourceId": "way/836847023",
+      "traits": [
+        "Cuerpo largo de revoque blanco con bandas de madera",
+        "Balcones corridos y cubierta poco inclinada",
+        "Porche central de madera con hastial triangular"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:946559614253665",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=946559614253665",
+          "local_crop": "crops/ovt_db0bdc0b-69aa-4d49-a53f-47c662c6e9f1/01_mly_946559614253665.jpg",
+          "camera": [
+            -71.349327796271,
+            -40.156991845369
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:994610095924121",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=994610095924121",
+          "local_crop": "crops/ovt_db0bdc0b-69aa-4d49-a53f-47c662c6e9f1/02_mly_994610095924121.jpg",
+          "camera": [
+            -71.349532694889,
+            -40.156894161473
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:624480120279488",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=624480120279488",
+          "local_crop": "crops/ovt_db0bdc0b-69aa-4d49-a53f-47c662c6e9f1/03_mly_624480120279488.jpg",
+          "camera": [
+            -71.349169369547,
+            -40.15725391023
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.349327796271,
+        -40.156991845369
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    },
+    {
+      "id": "viejo-esquiador",
+      "name": "Hotel El Viejo Esquiador",
+      "sourceId": "way/815761713",
+      "traits": [
+        "Frente urbano ancho color crema",
+        "Ventanas horizontales y cuerpos laterales más altos",
+        "Acceso comercial oscuro y alero continuo"
+      ],
+      "evidence": "individual-visual",
+      "references": [
+        {
+          "source": "Mapillary",
+          "id": "mly:1300016274610752",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1300016274610752",
+          "local_crop": "crops/ovt_d21306ec-1f03-43bd-b1f4-aeda572486d9/01_mly_1300016274610752.jpg",
+          "camera": [
+            -71.345282702239,
+            -40.155028813142
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:1206130007824651",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=1206130007824651",
+          "local_crop": "crops/ovt_d21306ec-1f03-43bd-b1f4-aeda572486d9/02_mly_1206130007824651.jpg",
+          "camera": [
+            -71.3450654,
+            -40.1550058
+          ]
+        },
+        {
+          "source": "Mapillary",
+          "id": "mly:642053511673669",
+          "author": "Kaart_Local",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "url": "https://www.mapillary.com/app/?pKey=642053511673669",
+          "local_crop": "crops/ovt_d21306ec-1f03-43bd-b1f4-aeda572486d9/00_mly_642053511673669.jpg",
+          "camera": [
+            -71.345035518945,
+            -40.154939344225
+          ]
+        }
+      ],
+      "descriptive_sources": [],
+      "frontCamera": [
+        -71.345282702239,
+        -40.155028813142
+      ],
+      "limits": "Reproducción artística para reconocimiento por silueta y fachada; sin levantamiento métrico ni reproducción de interiores. Fotografías de distintas fechas."
+    }
+  ]
+}
